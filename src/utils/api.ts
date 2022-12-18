@@ -52,8 +52,14 @@ export const fetchGuild = async (ctx: GetServerSidePropsContext) => {
         headers,
       }
     );
+    const { data: channels } = await axios.get<DiscordGuild[]>(
+      `${API_URL}/guilds/${ctx.query.id}/channels`,
+      {
+        headers,
+      }
+    );
     console.log(guild);
-    return { props: { guild } };
+    return { props: { guild, channels } };
   } catch (err) {
     console.log(err);
     return { redirect: { destination: "/" } };

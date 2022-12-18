@@ -24,7 +24,5 @@ const Home: NextPage<Props> = ({ user }) => {
     </div>
   );
 };
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  return fetchUser(context);
-}
+
 export default Home;
