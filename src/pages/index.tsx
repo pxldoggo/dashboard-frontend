@@ -56,6 +56,7 @@ const Home: NextPage<Props> = ({ user }) => {
             <div className="flex justify-center gap-4">
               <a
                 target="_blank"
+                rel="noreferrer"
                 href="https://www.twitter.com/pxldoggo"
                 className="hover:scale-110 duration-100"
               >
@@ -63,6 +64,7 @@ const Home: NextPage<Props> = ({ user }) => {
               </a>
               <a
                 target="_blank"
+                rel="noreferrer"
                 href="https://discord.gg/rPA98J4xpQ"
                 className="hover:scale-110 duration-100"
               >
