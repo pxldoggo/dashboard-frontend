@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setLoading] = useState(true);
   React.useEffect(() => {
     const initializeAuth = async () => {
-      const response = await axios.get("http://localhost:3001/user", {
+      const response = await axios.get(`${process.env.API_URL}/user`, {
         withCredentials: true,
       });
       setAuthenticated(response.status === 200);

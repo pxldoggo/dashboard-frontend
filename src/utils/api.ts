@@ -5,7 +5,9 @@ import { DiscordGuild, DiscordUser } from "./types";
 
 const environment = process.env.NODE_ENV;
 const isDevelopment = environment === "development";
-const API_URL = isDevelopment ? `http://localhost:3001` : "production url";
+const API_URL = isDevelopment
+  ? `http://localhost:3001`
+  : "https://doggoslabs-backend.herokuapp.com";
 
 export const fetchMutualGuilds = async (context: GetServerSidePropsContext) => {
   const headers = validateCookies(context);

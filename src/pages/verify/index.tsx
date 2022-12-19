@@ -9,7 +9,7 @@ type Props = {
 
 const VerifyPage: NextPage<Props> = ({ user }) => {
   const handleLogin = () => {
-    window.location.href = "http://localhost:3001/auth/discord";
+    window.location.href = `${process.env.API_URL}/auth/discord`;
   };
   return (
     <div className="flex justify-center flex-col-reverse gap-8 items-center w-screen h-screen">

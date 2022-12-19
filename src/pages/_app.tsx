@@ -43,7 +43,7 @@ const wagmiClient = createClient({
 
 const authenticationAdapter = createAuthenticationAdapter({
   getNonce: async () => {
-    const response = await fetch("http://localhost:3001/wallet/nonce");
+    const response = await fetch(`${process.env.API_URL}/wallet/nonce`);
     return await response.text();
   },
 
@@ -64,7 +64,7 @@ const authenticationAdapter = createAuthenticationAdapter({
   },
 
   verify: async ({ message, signature }) => {
-    const verifyRes = await fetch("http://localhost:3001/wallet/verify", {
+    const verifyRes = await fetch(`${process.env.API_URL}/wallet/verify`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message, signature }),
@@ -73,7 +73,7 @@ const authenticationAdapter = createAuthenticationAdapter({
   },
 
   signOut: async () => {
-    await fetch("http://localhost:3001/api/logout");
+    await fetch(`${process.env.API_URL}/auth/logout`);
   },
 });
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout<any>) => {

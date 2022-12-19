@@ -11,7 +11,7 @@ const nextConfig = {
     return [
       {
         source: '/discord',
-        destination: isDevelopment ? 'http://localhost:3001/auth/discord' : 'production url',
+        destination: isDevelopment ? 'http://localhost:3001/auth/discord' : 'https://doggoslabs-backend.herokuapp.com/auth/discord',
         permanent: false
       }
     ];
