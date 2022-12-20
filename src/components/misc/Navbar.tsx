@@ -109,14 +109,9 @@ const Navbar = () => {
               ))}
             </div>
             <ThemeSwitcher />
-            <ConnectButton chainStatus={"none"} showBalance={false} />
-
-            <a
-              href="#"
-              className="inline-flex items-center px-4 py-2 text-base font-medium dark:text-white text-white bg-soft-blue-100 border border-transparent rounded-md hover:bg-soft-blue-200"
-            >
-              Access dApp
-            </a>
+            <div id="ctnbutton">
+              <ConnectButton chainStatus={"none"} showBalance={false} />
+            </div>
           </div>
         </nav>
       </div>

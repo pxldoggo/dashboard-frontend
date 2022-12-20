@@ -28,3 +28,11 @@ a {
 * {
   box-sizing: border-box;
 }
+
+#cntbutton div button {
+  font-family: "Roboto Mono" !important;
+  font-weight: normal !important;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: #fff !important;
+}

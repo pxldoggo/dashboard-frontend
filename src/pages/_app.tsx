@@ -30,11 +30,10 @@ import Router from "next/router";
 const myTheme = merge(lightTheme(), {
   colors: {
     connectButtonBackground: "#569ff6",
-    connectButtonBackgroundError: "#07296d",
-    connectButtonInnerBackground: "#07296d",
     connectButtonText: "#fff",
-    connectButtonTextError: "#07296d",
-    connectionIndicator: "#07296d",
+  },
+  radii: {
+    connectButton: "0.375rem",
   },
 } as Theme);
 
