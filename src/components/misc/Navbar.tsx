@@ -237,6 +237,7 @@ const MegaMenu = (data: any) => {
                 <div className="dark:bg-gray-900 bg-gray-50 p-4">
                   <a
                     target="_blank"
+                    rel="noreferrer"
                     href="https://docs.pixeldoggo.com"
                     className="flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out dark:hover:bg-gray-800 hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                   >

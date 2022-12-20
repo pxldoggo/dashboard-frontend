@@ -246,7 +246,7 @@ const MissionPage: NextPage<Props> = ({ user: any }) => {
             (item) =>
               modal.show &&
               modal.requestedModalId === item.id && (
-                <MissionModal closeModal={handleCloseModal}>
+                <MissionModal key={item.id} closeModal={handleCloseModal}>
                   <p className="absolute bottom-2 right-2 text-white text-[25rem] leading-[25rem] opacity-25">
                     0{item.id}
                   </p>
