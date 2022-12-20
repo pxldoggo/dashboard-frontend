@@ -6,11 +6,11 @@ export interface DiscordUserAccountType {
   discordId: string;
   accessToken: string;
   refreshToken: string;
-  user: DiscordUser;
+  user?: DiscordUser;
 }
 export interface UserType {
   id: string;
-  discord: DiscordUserAccountType;
+  discord?: DiscordUserAccountType;
   wallet: string;
 }
 export type DiscordUser = {
