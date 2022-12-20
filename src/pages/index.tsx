@@ -66,13 +66,18 @@ const Home: NextPage<Props> = ({ user }) => {
               target="_blank"
               href="https://docs.pixeldoggo.com"
               className="inline-flex items-center px-4 py-2 text-base font-medium dark:text-white text-white bg-soft-blue-100 border border-transparent rounded-md hover:bg-soft-blue-200 self-start"
+              rel="noreferrer"
             >
               Read Whitepaper
             </a>
             <hr className="my-4 border-soft-blue-100/20" />
             <h5 className="pb-4 font-semibold">Follow us</h5>
             <div className="flex gap-6 flex-row">
-              <a href="https://twitter.com/pxldoggo" target="_blank">
+              <a
+                href="https://twitter.com/pxldoggo"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <FaTwitter
                   size={32}
                   className="opacity-50 hover:opacity-100 transition-opacity hover:text-soft-blue-100 dark:hover:text-soft-blue-100 dark:text-white text-gray-800"
@@ -89,31 +94,85 @@ const Home: NextPage<Props> = ({ user }) => {
           <div className="box">
             <div className="grid grid-cols-3 gap-2 auto-rows-auto grid-flow-row">
               <div className="hover:scale-110 hover:shadow transition duration-150 ease-in-out">
-                <img src="/doggo.png" className="rounded-md " />
+                <Image
+                  alt="Doggo"
+                  src="/doggo.png"
+                  className="rounded-md "
+                  width={540}
+                  height={540}
+                />
               </div>
               <div className="hover:scale-110 hover:shadow transition duration-150 ease-in-out">
-                <img src="/doggo.png" className="rounded-md " />
+                <Image
+                  alt="Doggo"
+                  src="/doggo.png"
+                  className="rounded-md "
+                  width={540}
+                  height={540}
+                />
               </div>
               <div className="hover:scale-110 hover:shadow transition duration-150 ease-in-out">
-                <img src="/doggo.png" className="rounded-md " />
+                <Image
+                  alt="Doggo"
+                  src="/doggo.png"
+                  className="rounded-md "
+                  width={540}
+                  height={540}
+                />
               </div>
               <div className="hover:scale-110 hover:shadow transition duration-150 ease-in-out">
-                <img src="/doggo.png" className="rounded-md " />
+                <Image
+                  alt="Doggo"
+                  src="/doggo.png"
+                  className="rounded-md "
+                  width={540}
+                  height={540}
+                />
               </div>
               <div className="hover:scale-110 hover:shadow transition duration-150 ease-in-out">
-                <img src="/doggo.png" className="rounded-md " />
+                <Image
+                  alt="Doggo"
+                  src="/doggo.png"
+                  className="rounded-md "
+                  width={540}
+                  height={540}
+                />
               </div>
               <div className="hover:scale-110 hover:shadow transition duration-150 ease-in-out">
-                <img src="/doggo.png" className="rounded-md " />
+                <Image
+                  alt="Doggo"
+                  src="/doggo.png"
+                  className="rounded-md "
+                  width={540}
+                  height={540}
+                />
               </div>
               <div className="hover:scale-110 hover:shadow transition duration-150 ease-in-out">
-                <img src="/doggo.png" className="rounded-md " />
+                <Image
+                  alt="Doggo"
+                  src="/doggo.png"
+                  className="rounded-md "
+                  width={540}
+                  height={540}
+                />
               </div>
               <div className="hover:scale-110 hover:shadow transition duration-150 ease-in-out">
-                <img src="/doggo.png" className="rounded-md " />
+                <Image
+                  alt="Doggo"
+                  src="/doggo.png"
+                  className="rounded-md "
+                  width={540}
+                  height={540}
+                />
               </div>
               <div className="hover:scale-110 hover:shadow transition duration-150 ease-in-out">
-                <img src="/doggo.png" className="rounded-md " />
+                <Image
+                  alt="Doggo"
+                  src="/doggo.png"
+                  className="rounded-md "
+                  width={540}
+                  height={540}
+                />
               </div>
             </div>
           </div>
