@@ -6,6 +6,7 @@ export interface DiscordUserAccountType {
   discordId: string;
   accessToken: string;
   refreshToken: string;
+  user: DiscordUser;
 }
 export interface UserType {
   id: string;
@@ -23,7 +24,6 @@ export type DiscordUser = {
   accent_color: string;
   premium_type: string;
   public_flags: string;
-  wallets: string[];
 };
 export interface DiscordEmoji {
   name: string;
