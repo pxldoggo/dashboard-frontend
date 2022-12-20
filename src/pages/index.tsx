@@ -50,7 +50,6 @@ const Home: NextPage<Props> = ({ user }) => {
       </Head>
       <Navbar />
 
-      <Canvas />
       <section className="px-4 sm:px-6 max-w-7xl mx-auto py-24">
         <div className="grid grid-cols-2 gap-12">
           <div className="box flex justify-center flex-col flex-nowrap">

@@ -5,12 +5,14 @@ import { ThemeProvider } from "next-themes";
 import { AppPropsWithLayout, DiscordGuild } from "../utils/types";
 import { useContext, useEffect, useState } from "react";
 import { GuildContext } from "../utils/contexts/GuildContext";
-
+import merge from "lodash.merge";
 import "@rainbow-me/rainbowkit/styles.css";
 import {
   getDefaultWallets,
   RainbowKitAuthenticationProvider,
   RainbowKitProvider,
+  lightTheme,
+  Theme,
 } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { avalanche, avalancheFuji } from "wagmi/chains";
@@ -24,6 +26,17 @@ import {
 import { validateCookies } from "../utils/helpers";
 import axios from "axios";
 import Router from "next/router";
+
+const myTheme = merge(lightTheme(), {
+  colors: {
+    connectButtonBackground: "#569ff6",
+    connectButtonBackgroundError: "#07296d",
+    connectButtonInnerBackground: "#07296d",
+    connectButtonText: "#fff",
+    connectButtonTextError: "#07296d",
+    connectionIndicator: "#07296d",
+  },
+} as Theme);
 
 const { chains, provider } = configureChains(
   [avalanche, avalancheFuji],
@@ -102,6 +115,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout<any>) => {
         >
           <RainbowKitProvider
             chains={chains}
+            theme={myTheme}
             modalSize="compact"
             appInfo={{
               appName: "Doggos",
