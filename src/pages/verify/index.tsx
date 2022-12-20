@@ -1,16 +1,17 @@
 import { GetServerSidePropsContext, NextPage } from "next";
-import { DiscordUser } from "../../utils/types";
+import { DiscordUser, UserType } from "../../utils/types";
 import { fetchUser } from "../../utils/api";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 type Props = {
-  user: DiscordUser;
+  user: UserType;
 };
 
 const VerifyPage: NextPage<Props> = ({ user }) => {
   const handleLogin = () => {
     window.location.href = `${process.env.API_URL}/auth/discord`;
   };
+  console.log(user);
   return (
     <div className="flex justify-center flex-col-reverse gap-8 items-center w-screen h-screen">
       {!user ? (
@@ -30,3 +31,7 @@ const VerifyPage: NextPage<Props> = ({ user }) => {
 };
 
 export default VerifyPage;
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return fetchUser(context);
+}
