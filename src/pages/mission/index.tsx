@@ -82,10 +82,12 @@ type Props = {
   user: DiscordUser;
 };
 
-const MissionPage: NextPage<Props> = ({ user: any }) => {
-  const [modal, setModal] = useState({ show: false, requestedModalId: 0 });
+const MissionPage: NextPage<Props> = ({ user }) => {
+  const [modal, setModal] = useState<
+    Partial<{ show: boolean; requestedModalId: number }>
+  >({ show: false, requestedModalId: 0 });
 
-  const handleOpenModal = (id: any) => {
+  const handleOpenModal = (id: number) => {
     setModal({ show: true, requestedModalId: id });
   };
 
