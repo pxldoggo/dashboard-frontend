@@ -4,14 +4,17 @@ import { useRouter } from "next/router";
 import { fetchUser } from "../utils/api";
 import { DiscordUser } from "../utils/types";
 import Head from "next/head";
+import Navbar from "../components/misc/Navbar";
+import { FaDiscord, FaTwitter } from "react-icons/fa";
 
+const { API_URL } = process.env;
 type Props = {
   user: DiscordUser;
 };
 const Home: NextPage<Props> = ({ user }) => {
   const router = useRouter();
   const handleLogin = () => {
-    window.location.href = `${process.env.API_URL}/auth/discord`;
+    window.location.href = `${API_URL}/auth/discord`;
   };
   return (
     <>
@@ -47,33 +50,75 @@ const Home: NextPage<Props> = ({ user }) => {
         <meta property="url" content="https://pixeldoggo.com/" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="text-xl font-pixellari relative bg-gradient-header flex h-screen w-full overflow-hidden">
-        <div className="w-full h-full flex items-center justify-center">
-          <div className="flex flex-col">
-            <div className="mb-12 ">
-              <img src="./logo.png" />
+      <Navbar />
+
+      <section className="px-4 sm:px-6 max-w-7xl mx-auto py-24">
+        <div className="grid grid-cols-2 gap-12">
+          <div className="box flex justify-center flex-col flex-nowrap">
+            <h1 className="font-jakarta dark:text-white text-6xl text-gray-800 pb-6">
+              Be part of the Doggos pack
+            </h1>
+            <p className="max-w-lg mb-6 text-justify">
+              Being part of the pack is being among members who care and are
+              always looking to improve the Avalanche 🔺 ecosystem.
+            </p>
+            <a
+              target="_blank"
+              href="https://docs.pixeldoggo.com"
+              className="inline-flex items-center px-4 py-2 text-base font-medium dark:text-white text-white bg-soft-blue-100 border border-transparent rounded-md hover:bg-soft-blue-200 self-start"
+            >
+              Read Whitepaper
+            </a>
+            <hr className="my-4 border-soft-blue-100/20" />
+            <h5 className="pb-4 font-semibold">Follow us</h5>
+            <div className="flex gap-6 flex-row">
+              <a href="https://twitter.com/pxldoggo" target="_blank">
+                <FaTwitter
+                  size={32}
+                  className="opacity-50 hover:opacity-100 transition-opacity hover:text-soft-blue-100 dark:hover:text-soft-blue-100 dark:text-white text-gray-800"
+                />
+              </a>
+              <div className="cursor-not-allowed">
+                <FaDiscord
+                  size={32}
+                  className="opacity-50 hover:opacity-100 transition-opacity hover:text-soft-blue-100 dark:hover:text-soft-blue-100 dark:text-white text-gray-800"
+                />
+              </div>
             </div>
-            <div className="flex justify-center gap-4">
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href="https://www.twitter.com/pxldoggo"
-                className="hover:scale-110 duration-100"
-              >
-                <img width={48} height={48} src="/twitter.png" />
-              </a>
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href="https://discord.gg/rPA98J4xpQ"
-                className="hover:scale-110 duration-100"
-              >
-                <img width={48} height={48} src="/discord.png" />
-              </a>
+          </div>
+          <div className="box">
+            <div className="grid grid-cols-3 gap-2 auto-rows-auto grid-flow-row">
+              <div className="hover:scale-110 hover:shadow transition duration-150 ease-in-out">
+                <img src="/doggo.png" className="rounded-md " />
+              </div>
+              <div className="hover:scale-110 hover:shadow transition duration-150 ease-in-out">
+                <img src="/doggo.png" className="rounded-md " />
+              </div>
+              <div className="hover:scale-110 hover:shadow transition duration-150 ease-in-out">
+                <img src="/doggo.png" className="rounded-md " />
+              </div>
+              <div className="hover:scale-110 hover:shadow transition duration-150 ease-in-out">
+                <img src="/doggo.png" className="rounded-md " />
+              </div>
+              <div className="hover:scale-110 hover:shadow transition duration-150 ease-in-out">
+                <img src="/doggo.png" className="rounded-md " />
+              </div>
+              <div className="hover:scale-110 hover:shadow transition duration-150 ease-in-out">
+                <img src="/doggo.png" className="rounded-md " />
+              </div>
+              <div className="hover:scale-110 hover:shadow transition duration-150 ease-in-out">
+                <img src="/doggo.png" className="rounded-md " />
+              </div>
+              <div className="hover:scale-110 hover:shadow transition duration-150 ease-in-out">
+                <img src="/doggo.png" className="rounded-md " />
+              </div>
+              <div className="hover:scale-110 hover:shadow transition duration-150 ease-in-out">
+                <img src="/doggo.png" className="rounded-md " />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </>
   );
 };

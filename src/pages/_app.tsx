@@ -1,4 +1,7 @@
 import "../utils/styles/globals.css";
+
+import { ThemeProvider } from "next-themes";
+
 import { AppPropsWithLayout, DiscordGuild } from "../utils/types";
 import { useState } from "react";
 import { GuildContext } from "../utils/contexts/GuildContext";
@@ -76,26 +79,36 @@ const authenticationAdapter = createAuthenticationAdapter({
     await fetch(`${process.env.API_URL}/auth/logout`);
   },
 });
+
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout<any>) => {
   const [guild, setGuild] = useState<DiscordGuild>();
   const getLayout = Component.getLayout ?? ((page) => page);
   const { isAuthenticated } = useAuth();
   console.log(isAuthenticated);
   return (
-    <AuthProvider>
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitAuthenticationProvider
-          adapter={authenticationAdapter}
-          status={isAuthenticated ? "authenticated" : "unauthenticated"}
-        >
-          <RainbowKitProvider chains={chains}>
-            <GuildContext.Provider value={{ guild, setGuild }}>
-              {getLayout(<Component {...pageProps} />)}
-            </GuildContext.Provider>
-          </RainbowKitProvider>
-        </RainbowKitAuthenticationProvider>
-      </WagmiConfig>
-    </AuthProvider>
+    <ThemeProvider defaultTheme="system" attribute="class">
+      <AuthProvider>
+        <WagmiConfig client={wagmiClient}>
+          <RainbowKitAuthenticationProvider
+            adapter={authenticationAdapter}
+            status={isAuthenticated ? "authenticated" : "unauthenticated"}
+          >
+            <RainbowKitProvider
+              chains={chains}
+              modalSize="compact"
+              appInfo={{
+                appName: "Doggos",
+                learnMoreUrl: "https://docs.pixeldoggo.com",
+              }}
+            >
+              <GuildContext.Provider value={{ guild, setGuild }}>
+                {getLayout(<Component {...pageProps} />)}
+              </GuildContext.Provider>
+            </RainbowKitProvider>
+          </RainbowKitAuthenticationProvider>
+        </WagmiConfig>
+      </AuthProvider>
+    </ThemeProvider>
   );
 };
 export default MyApp;
