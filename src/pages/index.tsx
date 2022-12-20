@@ -6,6 +6,7 @@ import { DiscordUser } from "../utils/types";
 import Head from "next/head";
 import Navbar from "../components/misc/Navbar";
 import { FaDiscord, FaTwitter } from "react-icons/fa";
+import { Canvas } from "../components/misc/Canvas";
 
 const { API_URL } = process.env;
 type Props = {
@@ -52,6 +53,7 @@ const Home: NextPage<Props> = ({ user }) => {
       </Head>
       <Navbar />
 
+      <Canvas />
       <section className="px-4 sm:px-6 max-w-7xl mx-auto py-24">
         <div className="grid grid-cols-2 gap-12">
           <div className="box flex justify-center flex-col flex-nowrap">
