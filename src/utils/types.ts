@@ -2,6 +2,16 @@ import { NextPage } from "next";
 import { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
 
+export interface DiscordUserAccountType {
+  discordId: string;
+  accessToken: string;
+  refreshToken: string;
+}
+export interface UserType {
+  id: string;
+  discord: DiscordUserAccountType;
+  wallet: string;
+}
 export type DiscordUser = {
   id: string;
   username: string;
