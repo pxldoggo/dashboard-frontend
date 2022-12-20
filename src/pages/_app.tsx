@@ -3,7 +3,7 @@ import "../utils/styles/globals.css";
 import { ThemeProvider } from "next-themes";
 
 import { AppPropsWithLayout, DiscordGuild } from "../utils/types";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { GuildContext } from "../utils/contexts/GuildContext";
 
 import "@rainbow-me/rainbowkit/styles.css";
@@ -22,11 +22,7 @@ import {
   useAuthenticationStatus,
 } from "@rainbow-me/rainbowkit/dist/components/RainbowKitProvider/AuthenticationContext";
 import { validateCookies } from "../utils/helpers";
-import {
-  AuthProvider,
-  useAuth,
-  useIsAuthenticated,
-} from "../utils/contexts/AuthContext";
+import { AuthContext } from "../utils/contexts/AuthContext";
 
 const { chains, provider } = configureChains(
   [avalanche, avalancheFuji],
@@ -54,7 +50,7 @@ const authenticationAdapter = createAuthenticationAdapter({
     return new SiweMessage({
       domain: window.location.host,
       address,
-      statement: "Sign in with Ethereum to the app.",
+      statement: "Sign in.",
       uri: window.location.origin,
       version: "1",
       chainId,
@@ -82,16 +78,15 @@ const authenticationAdapter = createAuthenticationAdapter({
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout<any>) => {
   const [guild, setGuild] = useState<DiscordGuild>();
+  const [authenticated, setAuthenticated] = useState<boolean>();
   const getLayout = Component.getLayout ?? ((page) => page);
-  const { isAuthenticated } = useAuth();
-  console.log(isAuthenticated);
   return (
     <ThemeProvider defaultTheme="system" attribute="class">
-      <AuthProvider>
+      <AuthContext.Provider value={{ authenticated, setAuthenticated }}>
         <WagmiConfig client={wagmiClient}>
           <RainbowKitAuthenticationProvider
             adapter={authenticationAdapter}
-            status={isAuthenticated ? "authenticated" : "unauthenticated"}
+            status={authenticated ? "authenticated" : "unauthenticated"}
           >
             <RainbowKitProvider
               chains={chains}
@@ -107,7 +102,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout<any>) => {
             </RainbowKitProvider>
           </RainbowKitAuthenticationProvider>
         </WagmiConfig>
-      </AuthProvider>
+      </AuthContext.Provider>
     </ThemeProvider>
   );
 };

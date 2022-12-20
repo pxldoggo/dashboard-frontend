@@ -6,16 +6,16 @@ import { DiscordUser } from "../utils/types";
 import Head from "next/head";
 import Navbar from "../components/misc/Navbar";
 import { FaDiscord, FaTwitter } from "react-icons/fa";
+import { useContext } from "react";
+import { AuthContext } from "../utils/contexts/AuthContext";
 
 const { API_URL } = process.env;
 type Props = {
   user: DiscordUser;
 };
 const Home: NextPage<Props> = ({ user }) => {
-  const router = useRouter();
-  const handleLogin = () => {
-    window.location.href = `${API_URL}/auth/discord`;
-  };
+  const { setAuthenticated } = useContext(AuthContext);
+
   return (
     <>
       <Head>
