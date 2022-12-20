@@ -3,7 +3,7 @@ import "../utils/styles/globals.css";
 import { ThemeProvider } from "next-themes";
 
 import { AppPropsWithLayout, DiscordGuild } from "../utils/types";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GuildContext } from "../utils/contexts/GuildContext";
 
 import "@rainbow-me/rainbowkit/styles.css";
@@ -22,7 +22,8 @@ import {
   useAuthenticationStatus,
 } from "@rainbow-me/rainbowkit/dist/components/RainbowKitProvider/AuthenticationContext";
 import { validateCookies } from "../utils/helpers";
-import { AuthContext } from "../utils/contexts/AuthContext";
+import axios from "axios";
+import Router from "next/router";
 
 const { chains, provider } = configureChains(
   [avalanche, avalancheFuji],
@@ -63,46 +64,56 @@ const authenticationAdapter = createAuthenticationAdapter({
   },
 
   verify: async ({ message, signature }) => {
-    const verifyRes = await fetch(`${process.env.API_URL}/wallet/verify`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message, signature }),
-    });
-    return Boolean(verifyRes.ok);
+    const verifyRes = await axios.post(
+      `${process.env.API_URL}/wallet/verify`,
+      { message, signature },
+      { withCredentials: true }
+    );
+    Router.reload();
+    localStorage.setItem("authenticate", "true");
+    return Boolean(verifyRes.status === 200);
   },
 
   signOut: async () => {
+    localStorage.setItem("authenticate", "false");
     await fetch(`${process.env.API_URL}/auth/logout`);
   },
 });
 
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout<any>) => {
   const [guild, setGuild] = useState<DiscordGuild>();
-  const [authenticated, setAuthenticated] = useState<boolean>();
+  const [authenticated, setAuthenticated] = useState(false);
+  useEffect(() => {
+    const isAuth =
+      localStorage.getItem("authenticate") == null
+        ? false
+        : localStorage.getItem("authenticate") === "true"
+        ? true
+        : false;
+    setAuthenticated(isAuth);
+  }, [setAuthenticated]);
   const getLayout = Component.getLayout ?? ((page) => page);
   return (
     <ThemeProvider defaultTheme="system" attribute="class">
-      <AuthContext.Provider value={{ authenticated, setAuthenticated }}>
-        <WagmiConfig client={wagmiClient}>
-          <RainbowKitAuthenticationProvider
-            adapter={authenticationAdapter}
-            status={authenticated ? "authenticated" : "unauthenticated"}
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitAuthenticationProvider
+          adapter={authenticationAdapter}
+          status={authenticated ? "authenticated" : "unauthenticated"}
+        >
+          <RainbowKitProvider
+            chains={chains}
+            modalSize="compact"
+            appInfo={{
+              appName: "Doggos",
+              learnMoreUrl: "https://docs.pixeldoggo.com",
+            }}
           >
-            <RainbowKitProvider
-              chains={chains}
-              modalSize="compact"
-              appInfo={{
-                appName: "Doggos",
-                learnMoreUrl: "https://docs.pixeldoggo.com",
-              }}
-            >
-              <GuildContext.Provider value={{ guild, setGuild }}>
-                {getLayout(<Component {...pageProps} />)}
-              </GuildContext.Provider>
-            </RainbowKitProvider>
-          </RainbowKitAuthenticationProvider>
-        </WagmiConfig>
-      </AuthContext.Provider>
+            <GuildContext.Provider value={{ guild, setGuild }}>
+              {getLayout(<Component {...pageProps} />)}
+            </GuildContext.Provider>
+          </RainbowKitProvider>
+        </RainbowKitAuthenticationProvider>
+      </WagmiConfig>
     </ThemeProvider>
   );
 };

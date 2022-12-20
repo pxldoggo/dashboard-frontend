@@ -7,15 +7,12 @@ import Head from "next/head";
 import Navbar from "../components/misc/Navbar";
 import { FaDiscord, FaTwitter } from "react-icons/fa";
 import { useContext } from "react";
-import { AuthContext } from "../utils/contexts/AuthContext";
 
 const { API_URL } = process.env;
 type Props = {
   user: DiscordUser;
 };
 const Home: NextPage<Props> = ({ user }) => {
-  const { setAuthenticated } = useContext(AuthContext);
-
   return (
     <>
       <Head>
