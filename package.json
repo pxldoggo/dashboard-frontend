@@ -19,6 +19,7 @@
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",
     "ethers": "^5.7.2",
+    "google-spreadsheet": "^3.3.0",
     "lodash.merge": "^4.6.2",
     "next": "13.0.6",
     "next-themes": "^0.2.1",
@@ -30,6 +31,7 @@
     "wagmi": "^0.9.4"
   },
   "devDependencies": {
+    "@types/lodash.merge": "^4.6.7",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.20",
     "tailwindcss": "^3.2.4"
