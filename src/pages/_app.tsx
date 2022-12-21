@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import { AppPropsWithLayout, DiscordGuild } from "../utils/types";
 import { useContext, useEffect, useState } from "react";
 import { GuildContext } from "../utils/contexts/GuildContext";
+//@ts-ignore
 import merge from "lodash.merge";
 import "@rainbow-me/rainbowkit/styles.css";
 import {
@@ -19,11 +20,6 @@ import { avalanche, avalancheFuji } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { createAuthenticationAdapter } from "@rainbow-me/rainbowkit";
 import { SiweMessage } from "siwe";
-import {
-  useAuthenticationAdapter,
-  useAuthenticationStatus,
-} from "@rainbow-me/rainbowkit/dist/components/RainbowKitProvider/AuthenticationContext";
-import { validateCookies } from "../utils/helpers";
 import axios from "axios";
 import Router from "next/router";
 
