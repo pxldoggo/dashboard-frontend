@@ -5,6 +5,17 @@ import { HiX, HiMenu, HiChevronDown } from "react-icons/hi";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 // import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount, useNetwork } from "wagmi";
+
+// type Props = {
+//   user: UserType;
+// };
+
+const loggedNavigation = [
+  { name: "Home", href: "/", hasMenu: false },
+  { name: "Packlist Banner", href: "/mission", hasMenu: false },
+  { name: "Whitepaper", href: "https://docs.pixeldoggo.com", hasMenu: false },
+];
 
 const navigation = [
   { name: "Home", href: "/", hasMenu: false },
@@ -107,6 +118,22 @@ const Navbar = () => {
                   )}
                 </>
               ))}
+              {/* {address &&
+                isConnected &&
+                loggedNavigation.map((item) => (
+                  <>
+                    {item.hasMenu && <MegaMenu data={item} />}
+                    {!item.hasMenu && (
+                      <Link
+                        href={item.href}
+                        key={item.name}
+                        className="text-base font-medium dark:text-white text-gray-800 hover:text-soft-blue-400"
+                      >
+                        {item.name}
+                      </Link>
+                    )}
+                  </>
+                ))} */}
             </div>
             <ThemeSwitcher />
             <div id="ctnbutton">

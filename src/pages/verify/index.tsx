@@ -28,13 +28,13 @@ const VerifyPage: NextPage<Props> = ({ user }) => {
         </button>
       ) : (
         <div className="items-center flex flex-row gap-3">
-          <Image
+          {/* <Image
             className="rounded-full"
             alt="Discord user profile image"
             src={`${DISCORD_CDN_URL}/avatars/${user.discord.discordId}/${user.discord.user?.avatar}`}
             width={50}
             height={50}
-          />
+          /> */}
           Logged as {user.discord.user?.username}
         </div>
       )}
@@ -48,13 +48,13 @@ const VerifyPage: NextPage<Props> = ({ user }) => {
         </button>
       ) : (
         <div className="items-center flex flex-row gap-3">
-          <Image
+          {/* <Image
             className="rounded-full"
             alt="Twitter user profile image"
             src={`${user.twitter.user?.profile_image_url}`}
             width={50}
             height={50}
-          />
+          /> */}
           Logged as {user.twitter.user?.name}
         </div>
       )}
