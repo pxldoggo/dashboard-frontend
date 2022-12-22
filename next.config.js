@@ -6,7 +6,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["cdn.discordapp.com"],
+    domains: ["cdn.discordapp.com", "pbs.twimg.com"],
   },
   async redirects() {
     return [

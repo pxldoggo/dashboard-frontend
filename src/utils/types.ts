@@ -8,9 +8,34 @@ export interface DiscordUserAccountType {
   refreshToken: string;
   user?: DiscordUser;
 }
+export type TwitterPublicMetricsType = {
+  followers_count: number;
+  following_count: number;
+  tweet_count: number;
+  listed_count: number;
+};
+export type UserTwitter = {
+  id: number;
+  public_metrics: TwitterPublicMetricsType;
+  name: string;
+  profile_image_url: string;
+  description: string;
+  created_at: string;
+  username: string;
+  verified: boolean;
+  protected: boolean;
+  location: string;
+};
+export interface TwitterUserAccountType {
+  twitterId: string;
+  accessToken: string;
+  refreshToken: string;
+  user?: UserTwitter;
+}
 export interface UserType {
   id: string;
   discord?: DiscordUserAccountType;
+  twitter?: TwitterUserAccountType;
   wallet: string;
 }
 export type DiscordUser = {
