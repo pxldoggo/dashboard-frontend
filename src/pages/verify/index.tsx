@@ -16,6 +16,7 @@ const VerifyPage: NextPage<Props> = ({ user }) => {
   const handleLoginTwitter = () => {
     window.location.href = `${process.env.API_URL}/auth/twitter`;
   };
+  console.log(user);
   return (
     <div className="flex justify-center flex-col-reverse gap-8 items-center w-screen h-screen">
       {!user.discord ? (
