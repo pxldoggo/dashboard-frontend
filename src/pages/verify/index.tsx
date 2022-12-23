@@ -16,7 +16,6 @@ const VerifyPage: NextPage<Props> = ({ user }) => {
   const handleLoginTwitter = () => {
     window.location.href = `${process.env.API_URL}/auth/twitter`;
   };
-  console.log(user);
   return (
     <div className="flex justify-center flex-col-reverse gap-8 items-center w-screen h-screen">
       {!user.discord ? (
@@ -29,14 +28,15 @@ const VerifyPage: NextPage<Props> = ({ user }) => {
         </button>
       ) : (
         <div className="items-center flex flex-row gap-3">
-          {/* <Image
+          <Image
             className="rounded-full"
             alt="Discord user profile image"
             src={`${DISCORD_CDN_URL}/avatars/${user.discord.discordId}/${user.discord.user?.avatar}`}
             width={50}
             height={50}
-          /> */}
-          Logged as {user.discord.user?.username}
+          />
+          Logged as {user.discord.user?.username}#
+          {user.discord.user?.discriminator}
         </div>
       )}
       {!user.twitter ? (
@@ -49,13 +49,13 @@ const VerifyPage: NextPage<Props> = ({ user }) => {
         </button>
       ) : (
         <div className="items-center flex flex-row gap-3">
-          {/* <Image
+          <Image
             className="rounded-full"
             alt="Twitter user profile image"
             src={`${user.twitter.user?.profile_image_url}`}
             width={50}
             height={50}
-          /> */}
+          />
           Logged as {user.twitter.user?.name}
         </div>
       )}

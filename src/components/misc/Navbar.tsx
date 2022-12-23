@@ -3,7 +3,6 @@ import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { HiX, HiMenu, HiChevronDown } from "react-icons/hi";
 import { ThemeSwitcher } from "./ThemeSwitcher";
-// import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount, useNetwork } from "wagmi";
 
@@ -118,8 +117,7 @@ const Navbar = () => {
                   )}
                 </>
               ))}
-              {/* {address &&
-                isConnected &&
+              {/* {user &&
                 loggedNavigation.map((item) => (
                   <>
                     {item.hasMenu && <MegaMenu data={item} />}

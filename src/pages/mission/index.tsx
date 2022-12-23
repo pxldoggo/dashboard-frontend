@@ -121,7 +121,7 @@ const MissionPage: NextPage<Props> = ({ user }) => {
         <meta name="language" content="English" />
         <link rel="icon" type="image/svg+xml" href="favicon.ico" />
 
-        <title>Mission | Doggos</title>
+        <title>Mission - Doggos</title>
         <meta property="og:image" content="/banner.png" />
         <meta name="theme-color" content="#569FF6" />
         <meta name="title" content="Doggos" />
