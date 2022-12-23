@@ -51,7 +51,7 @@ const Home: NextPage<Props> = ({ user }) => {
       <Navbar />
 
       <section className="px-4 sm:px-6 max-w-7xl mx-auto py-24">
-        <div className="grid grid-cols-2 gap-12">
+        <div className="flex flex-col lg:grid grid-cols-2 gap-12">
           <div className="box flex justify-center flex-col flex-nowrap">
             <h1 className="font-jakarta dark:text-white text-6xl text-gray-800 pb-6">
               Be part of the Doggos pack

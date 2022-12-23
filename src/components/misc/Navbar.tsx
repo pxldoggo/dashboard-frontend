@@ -135,7 +135,7 @@ const Navbar = () => {
             </div>
             <ThemeSwitcher />
             <div id="ctnbutton">
-              <ConnectButton chainStatus={"none"} showBalance={false} />
+              {/* <ConnectButton chainStatus={"none"} showBalance={false} /> */}
             </div>
           </div>
         </nav>
