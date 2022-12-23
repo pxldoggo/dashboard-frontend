@@ -1,9 +1,10 @@
 import React, { useRef, useEffect } from "react";
 
-export const Canvas: React.FC<{}> = (username) => {
+export const Canvas: React.FC<{}> = (info) => {
   let canvasRef = useRef<HTMLCanvasElement | null>(null);
   let canvasCtxRef = useRef<CanvasRenderingContext2D | null>(null);
-  const user = username?.username?.twitter.user;
+  // @ts-ignore
+  const user = info.username.twitter.user;
   console.log(user, "user");
   useEffect(() => {
     if (canvasRef.current) {

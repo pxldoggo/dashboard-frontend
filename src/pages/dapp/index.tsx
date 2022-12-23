@@ -163,7 +163,7 @@ const DappPage: NextPage<Props> = ({ user }) => {
               <h2 className="font-jakarta dark:text-white text-2xl text-gray-800 mb-4">
                 Claim your banner
               </h2>
-              <Canvas username={user} />
+              <Canvas info={user} />
             </div>
           </Modal>
         </div>
