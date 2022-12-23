@@ -1,29 +1,37 @@
 import "../utils/styles/globals.css";
-import { AppPropsWithLayout, DiscordGuild } from "../utils/types";
-import { useState } from "react";
-import { GuildContext } from "../utils/contexts/GuildContext";
 
+import { ThemeProvider } from "next-themes";
+
+import { AppPropsWithLayout, DiscordGuild } from "../utils/types";
+import { useContext, useEffect, useState } from "react";
+import { GuildContext } from "../utils/contexts/GuildContext";
+//@ts-ignore
+import merge from "lodash.merge";
 import "@rainbow-me/rainbowkit/styles.css";
 import {
   getDefaultWallets,
   RainbowKitAuthenticationProvider,
   RainbowKitProvider,
+  lightTheme,
+  Theme,
 } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { avalanche, avalancheFuji } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { createAuthenticationAdapter } from "@rainbow-me/rainbowkit";
 import { SiweMessage } from "siwe";
-import {
-  useAuthenticationAdapter,
-  useAuthenticationStatus,
-} from "@rainbow-me/rainbowkit/dist/components/RainbowKitProvider/AuthenticationContext";
-import { validateCookies } from "../utils/helpers";
-import {
-  AuthProvider,
-  useAuth,
-  useIsAuthenticated,
-} from "../utils/contexts/AuthContext";
+import axios from "axios";
+import Router from "next/router";
+
+const myTheme = merge(lightTheme(), {
+  colors: {
+    connectButtonBackground: "#569ff6",
+    connectButtonText: "#fff",
+  },
+  radii: {
+    connectButton: "0.375rem",
+  },
+} as Theme);
 
 const { chains, provider } = configureChains(
   [avalanche, avalancheFuji],
@@ -31,7 +39,7 @@ const { chains, provider } = configureChains(
 );
 
 const { connectors } = getDefaultWallets({
-  appName: "My RainbowKit App",
+  appName: "Doggos",
   chains,
 });
 
@@ -51,7 +59,7 @@ const authenticationAdapter = createAuthenticationAdapter({
     return new SiweMessage({
       domain: window.location.host,
       address,
-      statement: "Sign in with Ethereum to the app.",
+      statement: "Sign in.",
       uri: window.location.origin,
       version: "1",
       chainId,
@@ -64,38 +72,60 @@ const authenticationAdapter = createAuthenticationAdapter({
   },
 
   verify: async ({ message, signature }) => {
-    const verifyRes = await fetch(`${process.env.API_URL}/wallet/verify`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message, signature }),
-    });
-    return Boolean(verifyRes.ok);
+    const verifyRes = await axios.post(
+      `${process.env.API_URL}/wallet/verify`,
+      { message, signature },
+      { withCredentials: true }
+    );
+    localStorage.setItem("authenticate", "true");
+    Router.push("/dapp").then(() => {
+      window.location.reload();
+    }); 
+    return Boolean(verifyRes.status === 200);
   },
 
   signOut: async () => {
+    localStorage.setItem("authenticate", "false");
     await fetch(`${process.env.API_URL}/auth/logout`);
   },
 });
+
 const MyApp = ({ Component, pageProps }: AppPropsWithLayout<any>) => {
   const [guild, setGuild] = useState<DiscordGuild>();
+  const [authenticated, setAuthenticated] = useState(false);
+  useEffect(() => {
+    const isAuth =
+      localStorage.getItem("authenticate") == null
+        ? false
+        : localStorage.getItem("authenticate") === "true"
+        ? true
+        : false;
+    setAuthenticated(isAuth);
+  }, [setAuthenticated]);
   const getLayout = Component.getLayout ?? ((page) => page);
-  const { isAuthenticated } = useAuth();
-  console.log(isAuthenticated);
   return (
-    <AuthProvider>
+    <ThemeProvider defaultTheme="system" attribute="class">
       <WagmiConfig client={wagmiClient}>
         <RainbowKitAuthenticationProvider
           adapter={authenticationAdapter}
-          status={isAuthenticated ? "authenticated" : "unauthenticated"}
+          status={authenticated ? "authenticated" : "unauthenticated"}
         >
-          <RainbowKitProvider chains={chains}>
+          <RainbowKitProvider
+            chains={chains}
+            theme={myTheme}
+            modalSize="compact"
+            appInfo={{
+              appName: "Doggos",
+              learnMoreUrl: "https://docs.pixeldoggo.com",
+            }}
+          >
             <GuildContext.Provider value={{ guild, setGuild }}>
               {getLayout(<Component {...pageProps} />)}
             </GuildContext.Provider>
           </RainbowKitProvider>
         </RainbowKitAuthenticationProvider>
       </WagmiConfig>
-    </AuthProvider>
+    </ThemeProvider>
   );
 };
 export default MyApp;

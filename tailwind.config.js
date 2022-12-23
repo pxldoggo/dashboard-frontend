@@ -13,7 +13,7 @@ module.exports = {
     extend: {
       fontFamily: {
         jakarta: ["Plus Jakarta Sans", "sans-serif"],
-        roboto: ["Roboto+Mono", "sans-serif"],
+        roboto: ["Roboto Mono", "sans-serif"],
         pixellari: ["Pixellari", "sans-serif"],
       },
       colors: {

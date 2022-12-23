@@ -4,9 +4,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   body {
-    @apply font-roboto;
+    @apply font-roboto bg-white dark:bg-gray-800;
   }
 }
 
@@ -28,12 +29,10 @@ a {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: #fbfbfd;
-    background: #569ff6;
-  }
+#cntbutton div button {
+  font-family: "Roboto Mono" !important;
+  font-weight: normal !important;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: #fff !important;
 }
