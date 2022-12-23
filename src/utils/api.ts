@@ -30,7 +30,7 @@ export const fetchMutualGuilds = async (context: GetServerSidePropsContext) => {
 
 export const fetchUser = async (context: GetServerSidePropsContext) => {
   const headers = validateCookies(context);
-  if (!headers) return { redirect: { destination: "/discord" } };
+  if (!headers) return { redirect: { destination: "/" } };
 
   try {
     const { data: user } = await axios.get<DiscordUser>(`${API_URL}/user`, {
