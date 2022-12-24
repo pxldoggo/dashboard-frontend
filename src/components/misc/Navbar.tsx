@@ -18,7 +18,6 @@ const loggedNavigation = [
 
 const navigation = [
   { name: "Home", href: "/", hasMenu: false },
-  { name: "Mission", href: "/mission", hasMenu: false },
   { name: "Whitepaper", href: "https://docs.pixeldoggo.com", hasMenu: false },
   // {
   //   name: "More",
