@@ -77,8 +77,10 @@ const authenticationAdapter = createAuthenticationAdapter({
       { message, signature },
       { withCredentials: true }
     );
-    Router.reload();
     localStorage.setItem("authenticate", "true");
+    Router.push("/dapp").then(() => {
+      window.location.reload();
+    }); 
     return Boolean(verifyRes.status === 200);
   },
 
