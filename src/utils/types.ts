@@ -26,6 +26,11 @@ export type UserTwitter = {
   protected: boolean;
   location: string;
 };
+export type PostVerificationGuildEmbed = {
+  channelId: string;
+  roleId: string;
+  contractAddress: string;
+};
 export interface TwitterUserAccountType {
   twitterId: string;
   accessToken: string;

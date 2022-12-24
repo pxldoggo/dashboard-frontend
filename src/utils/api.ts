@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext } from "next";
 import axios from "axios";
 import { validateCookies } from "./helpers";
-import { DiscordGuild, DiscordUser } from "./types";
+import { DiscordGuild, DiscordUser, PostVerificationGuildEmbed } from "./types";
 
 const environment = process.env.NODE_ENV;
 const isDevelopment = environment === "development";
@@ -72,4 +72,21 @@ export const fetchValidGuild = (id: string, headers: HeadersInit) => {
   return fetch(`${API_URL}/guilds/${id}/permissions`, {
     headers,
   });
+};
+export const postVerificationSystem = async (
+  id: string,
+  body: PostVerificationGuildEmbed
+) => {
+  const { data } = await axios.post(
+    `${API_URL}/guilds/${id}/verification`,
+    body,
+    { withCredentials: true }
+  );
+  return data;
+};
+export const getVerificationSystem = async (id: string) => {
+  const { data } = await axios.get(`${API_URL}/guilds/${id}/verification`, {
+    withCredentials: true,
+  });
+  return data;
 };
