@@ -81,12 +81,16 @@ const Home: NextPage<Props> = ({ user }) => {
                   className="opacity-50 hover:opacity-100 transition-opacity hover:text-soft-blue-100 dark:hover:text-soft-blue-100 dark:text-white text-gray-800"
                 />
               </a>
-              <div className="cursor-not-allowed">
+              <a
+                href="https://discord.gg/ZRXsmBKs"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <FaDiscord
                   size={32}
                   className="opacity-50 hover:opacity-100 transition-opacity hover:text-soft-blue-100 dark:hover:text-soft-blue-100 dark:text-white text-gray-800"
                 />
-              </div>
+              </a>
             </div>
           </div>
           <div className="box">
