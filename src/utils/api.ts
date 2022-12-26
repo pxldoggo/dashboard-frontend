@@ -1,7 +1,12 @@
 import { GetServerSidePropsContext } from "next";
 import axios from "axios";
 import { validateCookies } from "./helpers";
-import { DiscordGuild, DiscordUser, PostVerificationGuildEmbed } from "./types";
+import {
+  DiscordGuild,
+  DiscordUser,
+  Guild,
+  PostVerificationGuildEmbed,
+} from "./types";
 
 const environment = process.env.NODE_ENV;
 const isDevelopment = environment === "development";
@@ -48,7 +53,7 @@ export const fetchGuild = async (ctx: GetServerSidePropsContext) => {
   console.log(headers);
   if (!headers) return { redirect: { destination: "/" } };
   try {
-    const { data: guild } = await axios.get<DiscordGuild>(
+    const { data: discordGuild } = await axios.get<DiscordGuild>(
       `${API_URL}/guilds/${ctx.query.id}`,
       {
         headers,
@@ -60,8 +65,14 @@ export const fetchGuild = async (ctx: GetServerSidePropsContext) => {
         headers,
       }
     );
-    console.log(guild);
-    return { props: { guild, channels } };
+    const { data: guild } = await axios.get<Guild[]>(
+      `${API_URL}/guilds/${ctx.query.id}/verification`,
+      {
+        headers,
+      }
+    );
+    console.log(discordGuild);
+    return { props: { discordGuild, channels, guild } };
   } catch (err) {
     console.log(err);
     return { redirect: { destination: "/" } };
@@ -86,6 +97,12 @@ export const postVerificationSystem = async (
 };
 export const getVerificationSystem = async (id: string) => {
   const { data } = await axios.get(`${API_URL}/guilds/${id}/verification`, {
+    withCredentials: true,
+  });
+  return data;
+};
+export const deleteVerificationSystem = async (id: string) => {
+  const { data } = await axios.delete(`${API_URL}/guilds/${id}/verification`, {
     withCredentials: true,
   });
   return data;

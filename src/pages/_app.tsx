@@ -22,6 +22,8 @@ import { createAuthenticationAdapter } from "@rainbow-me/rainbowkit";
 import { SiweMessage } from "siwe";
 import axios from "axios";
 import Router from "next/router";
+import "react-toastify/dist/ReactToastify.min.css";
+import { ToastContainer } from "react-toastify";
 
 const myTheme = merge(lightTheme(), {
   colors: {
@@ -80,7 +82,7 @@ const authenticationAdapter = createAuthenticationAdapter({
     localStorage.setItem("authenticate", "true");
     Router.push("/dapp").then(() => {
       window.location.reload();
-    }); 
+    });
     return Boolean(verifyRes.status === 200);
   },
 
@@ -120,6 +122,7 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout<any>) => {
             }}
           >
             <GuildContext.Provider value={{ guild, setGuild }}>
+              <ToastContainer />
               {getLayout(<Component {...pageProps} />)}
             </GuildContext.Provider>
           </RainbowKitProvider>
