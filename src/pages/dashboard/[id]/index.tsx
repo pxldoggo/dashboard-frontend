@@ -1,5 +1,4 @@
 import { AxiosError } from "axios";
-import { channel } from "diagnostics_channel";
 import { GetServerSidePropsContext, NextPage } from "next";
 import Router from "next/router";
 import { ReactElement, useContext, useEffect, useState } from "react";

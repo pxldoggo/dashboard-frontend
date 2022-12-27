@@ -16,7 +16,7 @@ const API_URL = isDevelopment
 
 export const fetchMutualGuilds = async (context: GetServerSidePropsContext) => {
   const headers = validateCookies(context);
-  if (!headers) return { redirect: { destination: "/" } };
+  if (!headers) return { redirect: { destination: "/verify" } };
 
   try {
     const { data: guilds } = await axios.get<DiscordGuild[]>(
@@ -25,33 +25,53 @@ export const fetchMutualGuilds = async (context: GetServerSidePropsContext) => {
         headers,
       }
     );
+    const { data: adminGuilds } = await axios.get<DiscordGuild[]>(
+      `${API_URL}/guilds/admin`,
+      {
+        headers,
+      }
+    );
     console.log(guilds);
-    return { props: { guilds } };
+    return { props: { guilds, adminGuilds } };
   } catch (error) {
     console.log(error);
-    return { redirect: { destination: "/" } };
+    return { redirect: { destination: "/verify" } };
   }
 };
 
 export const fetchUser = async (context: GetServerSidePropsContext) => {
-  const headers = validateCookies(context);
-  if (!headers) return { redirect: { destination: "/discord" } };
+  if (context.resolvedUrl === "/verify") {
+    const headers = validateCookies(context);
+    if (!headers) return { props: { user: {} } };
 
-  try {
-    const { data: user } = await axios.get<DiscordUser>(`${API_URL}/user`, {
-      headers,
-    });
-    return { props: { user } };
-  } catch (error) {
-    console.log(error);
-    return { redirect: { destination: "/" } };
+    try {
+      const { data: user } = await axios.get<DiscordUser>(`${API_URL}/user`, {
+        headers,
+      });
+      return { props: { user } };
+    } catch (error) {
+      console.log(error);
+      return { props: { user: {} } };
+    }
+  } else {
+    const headers = validateCookies(context);
+    if (!headers) return { redirect: { destination: "/verify" } };
+    try {
+      const { data: user } = await axios.get<DiscordUser>(`${API_URL}/user`, {
+        headers,
+      });
+      return { props: { user } };
+    } catch (error) {
+      console.log(error);
+      return { redirect: { destination: "/verify" } };
+    }
   }
 };
 
 export const fetchGuild = async (ctx: GetServerSidePropsContext) => {
   const headers = validateCookies(ctx);
   console.log(headers);
-  if (!headers) return { redirect: { destination: "/" } };
+  if (!headers) return { redirect: { destination: "/verify" } };
   try {
     const { data: discordGuild } = await axios.get<DiscordGuild>(
       `${API_URL}/guilds/${ctx.query.id}`,
@@ -75,7 +95,7 @@ export const fetchGuild = async (ctx: GetServerSidePropsContext) => {
     return { props: { discordGuild, channels, guild } };
   } catch (err) {
     console.log(err);
-    return { redirect: { destination: "/" } };
+    return { redirect: { destination: "/verify" } };
   }
 };
 
