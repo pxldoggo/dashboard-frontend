@@ -20,7 +20,7 @@ type Props = {
 
 const DappPage: NextPage<Props> = ({ user }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
   const [isWhitelisted, setIsWhitelisted] = useState(false);
 
   const { address, isConnected, connector } = useAccount();
@@ -44,6 +44,8 @@ const DappPage: NextPage<Props> = ({ user }) => {
 
   const isWl = () => {
     data.forEach((item) => {
+      // ts ignore
+
       item.forEach((i: string | undefined) => {
         if (i === address) {
           setIsWhitelisted(true);
