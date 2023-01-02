@@ -13,6 +13,8 @@ import { Canvas } from "../../components/misc/Canvas";
 import { Header } from "../../components/dapp/Header";
 import Head from "next/head";
 
+import { getSheetsData } from "../../utils/sheet";
+
 type Props = {
   user: UserType;
 };
@@ -70,6 +72,7 @@ const DappPage: NextPage<Props> = ({ user }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
+      {getSheetsData()}
       <div className="relative mx-auto mb-4 lg:pt-8 sm:pt-2 max-w-7xl px-4 sm:px-6">
         {user.twitter ? (
           <div>
@@ -114,7 +117,7 @@ const DappPage: NextPage<Props> = ({ user }) => {
             </div>
           </div>
         ) : null}
-        <div className="flex">
+        <div className="flex gap-6 ">
           {!user.discord ? (
             <button
               onClick={handleLoginDiscord}

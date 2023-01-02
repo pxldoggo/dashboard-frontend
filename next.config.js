@@ -8,6 +8,8 @@ const nextConfig = {
   images: {
     domains: ["cdn.discordapp.com", "pbs.twimg.com"],
   },
+
+
   // async redirects() {
   //   return [
   //     {

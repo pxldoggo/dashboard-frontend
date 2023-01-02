@@ -4,7 +4,7 @@ export const Canvas: React.FC<{}> = (info) => {
   let canvasRef = useRef<HTMLCanvasElement | null>(null);
   let canvasCtxRef = useRef<CanvasRenderingContext2D | null>(null);
   // @ts-ignore
-  const user = info.username.twitter.user;
+  const user = info.info.twitter.user;
   console.log(user, "user");
   useEffect(() => {
     if (canvasRef.current) {
