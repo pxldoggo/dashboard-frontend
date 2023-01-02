@@ -60,6 +60,8 @@ const navigation = [
 ];
 
 const Navbar = () => {
+  const { address, isConnected, connector } = useAccount();
+
   return (
     <Popover as="header" className="relative">
       <div className="bg-transparent pt-4 sm:pt-6">
@@ -104,7 +106,7 @@ const Navbar = () => {
             <div className="hidden space-x-8 md:ml-10 md:flex">
               {navigation.map((item) => (
                 <>
-                  {item.hasMenu && <MegaMenu data={item} />}
+                  {item.hasMenu && <MegaMenu key={item.name} data={item} />}
                   {!item.hasMenu && (
                     <Link
                       href={item.href}
@@ -194,7 +196,6 @@ const Navbar = () => {
                   </>
                 ))}
               </div>
-              {/* Add button here */}
             </div>
           </div>
         </Popover.Panel>

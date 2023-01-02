@@ -12,8 +12,7 @@ import Modal from "../../components/misc/Modal";
 import { Canvas } from "../../components/misc/Canvas";
 import { Header } from "../../components/dapp/Header";
 import Head from "next/head";
-
-import { getSheetsData } from "../../utils/sheet";
+import { forEach } from "lodash";
 
 type Props = {
   user: UserType;
@@ -21,6 +20,10 @@ type Props = {
 
 const DappPage: NextPage<Props> = ({ user }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [data, setData] = useState([]);
+  const [isWhitelisted, setIsWhitelisted] = useState(false);
+
+  const { address, isConnected, connector } = useAccount();
 
   const handleLoginDiscord = () => {
     window.location.href = `${process.env.API_URL}/auth/discord`;
@@ -36,6 +39,32 @@ const DappPage: NextPage<Props> = ({ user }) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  // create a function to check if the address is in the data array and if it is, then console log true or false if it is not
+
+  const isWl = () => {
+    data.forEach((item) => {
+      item.forEach((i: string | undefined) => {
+        if (i === address) {
+          setIsWhitelisted(true);
+        } else {
+          setIsWhitelisted(false);
+        }
+      });
+    });
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(
+        `https://sheets.googleapis.com/v4/spreadsheets/1AJA-bwVyoLjrGIhITpSm_tVXCcnutPNn0D96fy8Wa1k/values/Address!A2:A200?key=AIzaSyCem6X_ZHf9FaGIy-8cmTe9FueguaH7YcQ`
+      );
+      const json = await response.json();
+      setData(json.values);
+    };
+    fetchData();
+    isWl();
+  }, []);
 
   return (
     <>
@@ -72,11 +101,9 @@ const DappPage: NextPage<Props> = ({ user }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      {getSheetsData()}
       <div className="relative mx-auto mb-4 lg:pt-8 sm:pt-2 max-w-7xl px-4 sm:px-6">
-        {user.twitter ? (
+        {isWhitelisted && user.twitter ? (
           <div>
-            {/* Code block starts */}
             <div
               id="alert"
               className="transition duration-150 ease-in-out py-4 px-6  dark:bg-gray-600 bg-white md:flex items-center justify-between shadow rounded mb-4"

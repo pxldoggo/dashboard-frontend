@@ -61,7 +61,7 @@ const Home: NextPage<Props> = ({ user }) => {
               always looking to improve the Avalanche 🔺 ecosystem.
             </p>
             <a
-              target="_blank"
+              target="_blank" 
               href="https://docs.pixeldoggo.com"
               className="inline-flex items-center px-4 py-2 text-base font-medium dark:text-white text-white bg-soft-blue-100 border border-transparent rounded-md hover:bg-soft-blue-200 self-start"
               rel="noreferrer"
