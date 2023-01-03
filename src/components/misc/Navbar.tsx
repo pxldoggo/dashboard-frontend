@@ -61,7 +61,8 @@ const navigation = [
 
 const Navbar = () => {
   const { address, isConnected, connector } = useAccount();
-
+  console.log(address);
+  console.log(isConnected);
   return (
     <Popover as="header" className="relative">
       <div className="bg-transparent pt-4 sm:pt-6">
@@ -195,6 +196,7 @@ const Navbar = () => {
                     )}
                   </>
                 ))}
+                <ConnectButton chainStatus={"none"} showBalance={false} />
               </div>
             </div>
           </div>
