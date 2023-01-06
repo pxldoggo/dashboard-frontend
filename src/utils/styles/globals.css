@@ -7,7 +7,7 @@
 
 @layer base {
   body {
-    @apply font-roboto bg-white dark:bg-gray-800;
+    @apply font-roboto bg-gray-50 dark:bg-gray-800;
   }
 }
 
@@ -29,10 +29,34 @@ a {
   box-sizing: border-box;
 }
 
-#cntbutton div button {
+.cntbutton {
   font-family: "Roboto Mono" !important;
   font-weight: normal !important;
   font-size: 1rem;
   line-height: 1.5rem;
   color: #fff !important;
+  background-color: rgb(86 159 246);
+  padding: 0.5rem 1rem;
+  border-color: transparent;
+  border-width: 1px;
+  border-radius: 0.375rem;
+}
+
+.grid-custom {
+  display: grid;
+  grid-template-columns: 1fr 2.5fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 16px;
+  grid-row-gap: 0px;
+}
+
+/* create a responsive for mobile */
+@media (max-width: 768px) {
+  .grid-custom {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 8px;
+  }
 }

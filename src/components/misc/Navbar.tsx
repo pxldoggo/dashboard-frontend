@@ -1,10 +1,15 @@
 import Link from "next/link";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { HiX, HiMenu, HiChevronDown } from "react-icons/hi";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount, useNetwork } from "wagmi";
+import { useAccount, useConnect, useNetwork } from "wagmi";
+
+// @ts-ignore
+import AVVY from "@avvy/client";
+import { ethers } from "ethers";
+import { add } from "lodash";
 
 // type Props = {
 //   user: UserType;
@@ -60,6 +65,35 @@ const navigation = [
 ];
 
 const Navbar = () => {
+  // create a useEffect function
+  const { address, isConnected, connector } = useAccount();
+  const [addy, setAddy] = useState();
+
+  useEffect(() => {
+    const checkAddy = async () => {
+      const PROVIDER_URL = "https://api.avax.network/ext/bc/C/rpc";
+      const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL);
+      const avvy = new AVVY(provider);
+      const hash = await avvy.reverse(AVVY.RECORDS.EVM, address);
+      if (hash) {
+        const name = await hash.lookup();
+        setAddy(name?.name);
+        console.log("You have a Avvy Domain name: ", addy);
+      } else if (address) {
+        const resumedAddy =
+          address?.substring(0, 6) +
+          "..." +
+          address?.substring(address?.length - 4, address?.length);
+
+        // @ts-ignore
+        setAddy(resumedAddy);
+        console.log("You don't have a Avvy Domain name: ", addy);
+      }
+    };
+
+    checkAddy();
+  }, [address]);
+
   return (
     <Popover as="header" className="relative">
       <div className="bg-transparent pt-4 sm:pt-6">
@@ -104,7 +138,7 @@ const Navbar = () => {
             <div className="hidden space-x-8 md:ml-10 md:flex">
               {navigation.map((item) => (
                 <>
-                  {item.hasMenu && <MegaMenu data={item} />}
+                  {item.hasMenu && <MegaMenu key={item.name} data={item} />}
                   {!item.hasMenu && (
                     <Link
                       href={item.href}
@@ -133,8 +167,121 @@ const Navbar = () => {
                 ))} */}
             </div>
             <ThemeSwitcher />
-            <div id="ctnbutton">
+            <div>
               {/* <ConnectButton chainStatus={"none"} showBalance={false} /> */}
+
+              <ConnectButton.Custom>
+                {({
+                  account,
+                  chain,
+                  openAccountModal,
+                  openChainModal,
+                  openConnectModal,
+                  authenticationStatus,
+                  mounted,
+                }) => {
+                  // Note: If your app doesn't use authentication, you
+                  // can remove all 'authenticationStatus' checks
+                  const ready = mounted && authenticationStatus !== "loading";
+                  const connected =
+                    ready &&
+                    account &&
+                    chain &&
+                    (!authenticationStatus ||
+                      authenticationStatus === "authenticated");
+
+                  return (
+                    <div
+                      {...(!ready && {
+                        "aria-hidden": true,
+                        style: {
+                          opacity: 0,
+                          pointerEvents: "none",
+                          userSelect: "none",
+                        },
+                      })}
+                    >
+                      {(() => {
+                        if (!connected) {
+                          return (
+                            <button
+                              onClick={openConnectModal}
+                              className="inline-flex items-center px-4 py-2 text-base font-medium dark:text-white text-white bg-soft-blue-100 border border-transparent rounded-md hover:bg-soft-blue-200"
+                              type="button"
+                            >
+                              Connect Wallet
+                            </button>
+                          );
+                        }
+
+                        if (chain.unsupported) {
+                          return (
+                            <button
+                              onClick={openChainModal}
+                              className="inline-flex items-center px-4 py-2 text-base font-medium dark:text-white text-white bg-soft-blue-100 border border-transparent rounded-md hover:bg-soft-blue-200"
+                              type="button"
+                            >
+                              Wrong network
+                            </button>
+                          );
+                        }
+
+                        return (
+                          <div style={{ display: "flex", gap: 12 }}>
+                            {/* <button
+                              onClick={openChainModal}
+                              style={{ display: "flex", alignItems: "center" }}
+                              type="button"
+                            >
+                              {chain.hasIcon && (
+                                <div
+                                  style={{
+                                    background: chain.iconBackground,
+                                    width: 12,
+                                    height: 12,
+                                    borderRadius: 999,
+                                    overflow: "hidden",
+                                    marginRight: 4,
+                                  }}
+                                >
+                                  {chain.iconUrl && (
+                                    <img
+                                      alt={chain.name ?? "Chain icon"}
+                                      src={chain.iconUrl}
+                                      style={{ width: 12, height: 12 }}
+                                    />
+                                  )}
+                                </div>
+                              )}
+                              {chain.name}
+                            </button> */}
+                            <Link
+                              className="inline-flex items-center px-4 py-2 text-base font-medium dark:text-white text-white bg-soft-blue-100 border border-transparent rounded-md hover:bg-soft-blue-200"
+                              href="/dapp"
+                            >
+                              Go to dApp
+                            </Link>
+                            <button
+                              onClick={openAccountModal}
+                              className="inline-flex items-center px-4 py-2 text-base font-medium dark:text-soft-blue-100 hover:dark:text-white hover:text-whiteF text-soft-blue-100 bg-transparent border-2 border-soft-blue-100 rounded-md hover:bg-soft-blue-200"
+                              type="button"
+                            >
+                              {account.displayName && addy}
+                              {/* {addy?.substring(0, 6) +
+                                "..." +
+                                addy?.substring(addy?.length - 4, addy?.length)} */}
+
+                              {/* {account.displayBalance
+                                ? ` (${account.displayBalance})`
+                                : ""} */}
+                            </button>
+                          </div>
+                        );
+                      })()}
+                    </div>
+                  );
+                }}
+              </ConnectButton.Custom>
             </div>
           </div>
         </nav>
@@ -193,8 +340,102 @@ const Navbar = () => {
                     )}
                   </>
                 ))}
+                <ConnectButton.Custom>
+                  {({
+                    account,
+                    chain,
+                    openAccountModal,
+                    openChainModal,
+                    openConnectModal,
+                    authenticationStatus,
+                    mounted,
+                  }) => {
+                    // Note: If your app doesn't use authentication, you
+                    // can remove all 'authenticationStatus' checks
+                    const ready = mounted && authenticationStatus !== "loading";
+                    const connected =
+                      ready &&
+                      account &&
+                      chain &&
+                      (!authenticationStatus ||
+                        authenticationStatus === "authenticated");
+
+                    return (
+                      <div
+                        {...(!ready && {
+                          "aria-hidden": true,
+                          style: {
+                            opacity: 0,
+                            pointerEvents: "none",
+                            userSelect: "none",
+                          },
+                        })}
+                      >
+                        {(() => {
+                          if (!connected) {
+                            return (
+                              <button onClick={openConnectModal} type="button">
+                                Connect Wallet
+                              </button>
+                            );
+                          }
+
+                          if (chain.unsupported) {
+                            return (
+                              <button onClick={openChainModal} type="button">
+                                Wrong network
+                              </button>
+                            );
+                          }
+
+                          return (
+                            <div style={{ display: "flex", gap: 12 }}>
+                              {/* <button
+                              onClick={openChainModal}
+                              style={{ display: "flex", alignItems: "center" }}
+                              type="button"
+                            >
+                              {chain.hasIcon && (
+                                <div
+                                  style={{
+                                    background: chain.iconBackground,
+                                    width: 12,
+                                    height: 12,
+                                    borderRadius: 999,
+                                    overflow: "hidden",
+                                    marginRight: 4,
+                                  }}
+                                >
+                                  {chain.iconUrl && (
+                                    <img
+                                      alt={chain.name ?? "Chain icon"}
+                                      src={chain.iconUrl}
+                                      style={{ width: 12, height: 12 }}
+                                    />
+                                  )}
+                                </div>
+                              )}
+                              {chain.name}
+                            </button> */}
+
+                              <button onClick={openAccountModal} type="button">
+                                {account.displayName && addy}
+                                {/* {addy?.substring(0, 6) +
+                                "..." +
+                                addy?.substring(addy?.length - 4, addy?.length)} */}
+
+                                {/* {account.displayBalance
+                                ? ` (${account.displayBalance})`
+                                : ""} */}
+                              </button>
+                            </div>
+                          );
+                        })()}
+                      </div>
+                    );
+                  }}
+                </ConnectButton.Custom>
               </div>
-              {/* Add button here */}
             </div>
           </div>
         </Popover.Panel>

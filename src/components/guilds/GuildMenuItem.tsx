@@ -4,13 +4,12 @@ import { DiscordGuild } from "../../utils/types";
 
 type Props = {
   guild: DiscordGuild;
+  color: string;
 };
-export const GuildMenuItem: FC<Props> = ({ guild }) => {
+export const GuildMenuItem: FC<Props> = ({ guild, color }) => {
   return (
     <div
-      className={
-        "justify-between flex items-center cursor-pointer my-3 py-5 px-8 border border-yellow-200 rounded-lg"
-      }
+      className={`justify-between flex items-center cursor-pointer my-3 py-5 px-8 border border-[#${color}] rounded-lg`}
     >
       <Image
         className={"rounded-full"}

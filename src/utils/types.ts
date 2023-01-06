@@ -1,7 +1,18 @@
 import { NextPage } from "next";
 import { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
-
+export interface Verification {
+  channelId: string; // discord channel que vai estar o embed de verificação.
+  roleId: string; // id da role que será atribuida aos holders
+  isEnabled: boolean; // saber se este modulo está ligado
+  tier: number; // tier da inscrição
+  chain: number; // numero da chain
+  contract: string; // contrato da coleção;
+}
+export interface Guild {
+  guildId: string;
+  verification: Verification;
+}
 export interface DiscordUserAccountType {
   discordId: string;
   accessToken: string;
@@ -25,6 +36,11 @@ export type UserTwitter = {
   verified: boolean;
   protected: boolean;
   location: string;
+};
+export type PostVerificationGuildEmbed = {
+  channelId: string;
+  roleId: string;
+  contractAddress: string;
 };
 export interface TwitterUserAccountType {
   twitterId: string;
