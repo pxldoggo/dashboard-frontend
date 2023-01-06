@@ -27,10 +27,10 @@ const DappPage: NextPage<Props> = ({ user }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState<any[]>([]);
   const [isWhitelisted, setIsWhitelisted] = useState(false);
-  const [addressFound, setAddressFound] = useState<any>();
+  const [addressFound, setAddressFound] = useState<string>();
   const [found, setFound] = useState(false);
   const { address, isConnected, connector } = useAccount();
-  const [addy, setAddy] = useState();
+  const [addy, setAddy] = useState<string>();
 
   const handleLoginDiscord = () => {
     window.location.href = `${process.env.API_URL}/auth/discord`;
