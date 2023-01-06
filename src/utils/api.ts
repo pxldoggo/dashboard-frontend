@@ -12,7 +12,7 @@ const environment = process.env.NODE_ENV;
 const isDevelopment = environment === "development";
 const API_URL = isDevelopment
   ? `http://localhost:3001`
-  : "https://doggoslabs-backend.herokuapp.com";
+  : "https://api.pixeldoggo.com";
 
 export const fetchMutualGuilds = async (context: GetServerSidePropsContext) => {
   const headers = validateCookies(context);
