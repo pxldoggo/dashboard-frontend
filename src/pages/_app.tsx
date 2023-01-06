@@ -24,7 +24,6 @@ import axios from "axios";
 import Router from "next/router";
 import "react-toastify/dist/ReactToastify.min.css";
 import { ToastContainer } from "react-toastify";
-
 const myTheme = merge(lightTheme(), {
   colors: {
     connectButtonBackground: "#569ff6",

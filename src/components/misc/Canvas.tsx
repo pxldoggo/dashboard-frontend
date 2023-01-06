@@ -1,8 +1,9 @@
-import React, { useRef, useEffect } from "react";
-
+import React, { useRef, useEffect, useState } from "react";
 export const Canvas: React.FC<{}> = (info) => {
   let canvasRef = useRef<HTMLCanvasElement | null>(null);
   let canvasCtxRef = useRef<CanvasRenderingContext2D | null>(null);
+
+
   // @ts-ignore
   const user = info.info.twitter.user;
   console.log(user, "user");

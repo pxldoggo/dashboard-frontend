@@ -16,7 +16,7 @@ const API_URL = isDevelopment
 
 export const fetchMutualGuilds = async (context: GetServerSidePropsContext) => {
   const headers = validateCookies(context);
-  if (!headers) return { redirect: { destination: "/verify" } };
+  if (!headers) return { redirect: { destination: "/" } };
 
   try {
     const { data: guilds } = await axios.get<DiscordGuild[]>(
@@ -35,7 +35,7 @@ export const fetchMutualGuilds = async (context: GetServerSidePropsContext) => {
     return { props: { guilds, adminGuilds } };
   } catch (error) {
     console.log(error);
-    return { redirect: { destination: "/verify" } };
+    return { redirect: { destination: "/" } };
   }
 };
 
@@ -55,7 +55,7 @@ export const fetchUser = async (context: GetServerSidePropsContext) => {
     }
   } else {
     const headers = validateCookies(context);
-    if (!headers) return { redirect: { destination: "/verify" } };
+    if (!headers) return { redirect: { destination: "/" } };
     try {
       const { data: user } = await axios.get<DiscordUser>(`${API_URL}/user`, {
         headers,
@@ -63,7 +63,7 @@ export const fetchUser = async (context: GetServerSidePropsContext) => {
       return { props: { user } };
     } catch (error) {
       console.log(error);
-      return { redirect: { destination: "/verify" } };
+      return { redirect: { destination: "/" } };
     }
   }
 };
@@ -71,7 +71,7 @@ export const fetchUser = async (context: GetServerSidePropsContext) => {
 export const fetchGuild = async (ctx: GetServerSidePropsContext) => {
   const headers = validateCookies(ctx);
   console.log(headers);
-  if (!headers) return { redirect: { destination: "/verify" } };
+  if (!headers) return { redirect: { destination: "/" } };
   try {
     const { data: discordGuild } = await axios.get<DiscordGuild>(
       `${API_URL}/guilds/${ctx.query.id}`,
@@ -95,7 +95,7 @@ export const fetchGuild = async (ctx: GetServerSidePropsContext) => {
     return { props: { discordGuild, channels, guild } };
   } catch (err) {
     console.log(err);
-    return { redirect: { destination: "/verify" } };
+    return { redirect: { destination: "/" } };
   }
 };
 
