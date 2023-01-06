@@ -50,6 +50,7 @@ const DappPage: NextPage<Props> = ({ user }) => {
   const isWl = () => {
     data.map((item) => {
       item.forEach((i: string | undefined) => {
+        console.log("pesquisando");
         if (i === address) {
           console.log("achou", address);
           setIsWhitelisted(true);

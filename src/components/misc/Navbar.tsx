@@ -65,7 +65,6 @@ const navigation = [
 ];
 
 const Navbar = () => {
-  // create a useEffect function
   const { address, isConnected, connector } = useAccount();
   const [addy, setAddy] = useState();
 
@@ -328,17 +327,16 @@ const Navbar = () => {
             <div className="pt-5 pb-6">
               <div className="px-2 space-y-1">
                 {navigation.map((item) => (
-                  <>
+                  <div key={item.name}>
                     {!item.hasMenu && (
                       <a
-                        key={item.name}
                         href={item.href}
                         className="block px-3 py-2 text-base font-medium dark:text-white text-gray-800 rounded-md hover:bg-soft-blue-200"
                       >
                         {item.name}
                       </a>
                     )}
-                  </>
+                  </div>
                 ))}
                 <ConnectButton.Custom>
                   {({
