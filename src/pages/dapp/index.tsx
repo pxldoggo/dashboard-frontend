@@ -27,6 +27,8 @@ const DappPage: NextPage<Props> = ({ user }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState<any[]>([]);
   const [isWhitelisted, setIsWhitelisted] = useState(false);
+  const [addressFound, setAddressFound] = useState<any>();
+  const [found, setFound] = useState(false);
   const { address, isConnected, connector } = useAccount();
   const [addy, setAddy] = useState();
 
@@ -45,16 +47,16 @@ const DappPage: NextPage<Props> = ({ user }) => {
     setIsModalOpen(false);
   };
 
-  // create a function to check if the address is in the data array and if it is, then console log true or false if it is not
-
   const isWl = () => {
-    data.forEach((item) => {
-      // ts ignore
-
+    data.map((item) => {
       item.forEach((i: string | undefined) => {
         if (i === address) {
+          console.log("achou", address);
           setIsWhitelisted(true);
+          setFound(true);
+          setAddressFound(address);
         } else {
+          console.log("não achou", address);
           setIsWhitelisted(false);
         }
       });
@@ -71,7 +73,6 @@ const DappPage: NextPage<Props> = ({ user }) => {
     };
     fetchData();
     isWl();
-
     const checkAddy = async () => {
       const PROVIDER_URL = "https://api.avax.network/ext/bc/C/rpc";
       const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL);
@@ -94,7 +95,6 @@ const DappPage: NextPage<Props> = ({ user }) => {
 
     checkAddy();
   }, [address]);
-
   return (
     <>
       <Head>
@@ -131,7 +131,7 @@ const DappPage: NextPage<Props> = ({ user }) => {
       </Head>
       <Header />
       <div className="relative mx-auto mb-4 lg:pt-8 sm:pt-2 max-w-7xl px-4 sm:px-6">
-        {isWhitelisted && user.twitter ? (
+        {addressFound && user.twitter ? (
           <div>
             <div
               id="alert"
@@ -291,7 +291,7 @@ const DappPage: NextPage<Props> = ({ user }) => {
                                 <p className="text-sm font-medium dark:text-white text-gray-800 mb-1">
                                   Packlisted?
                                 </p>
-                                {isWhitelisted ? (
+                                {addressFound ? (
                                   <p className="text-base font-bold dark:text-white text-gray-800 hover:text-soft-blue-400">
                                     ✅ Yes
                                   </p>
