@@ -130,7 +130,7 @@ const DappPage: NextPage<Props> = ({ user }) => {
       </Head>
       <Header />
       <div className="relative mx-auto mb-4 lg:pt-8 sm:pt-2 max-w-7xl px-4 sm:px-6">
-        {!isWhitelisted && user.twitter ? (
+        {isWhitelisted && user.twitter ? (
           <div>
             <div
               id="alert"
@@ -290,7 +290,7 @@ const DappPage: NextPage<Props> = ({ user }) => {
                                 <p className="text-sm font-medium dark:text-white text-gray-800 mb-1">
                                   Packlisted?
                                 </p>
-                                {!isWhitelisted ? (
+                                {isWhitelisted ? (
                                   <p className="text-base font-bold dark:text-white text-gray-800 hover:text-soft-blue-400">
                                     ✅ Yes
                                   </p>
