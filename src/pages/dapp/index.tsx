@@ -47,20 +47,6 @@ const DappPage: NextPage<Props> = ({ user }) => {
 
   // create a function to check if the address is in the data array and if it is, then console log true or false if it is not
 
-  const isWl = () => {
-    data.forEach((item) => {
-      // ts ignore
-
-      item.forEach((i: string | undefined) => {
-        if (i === address) {
-          setIsWhitelisted(true);
-        } else {
-          setIsWhitelisted(false);
-        }
-      });
-    });
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
@@ -68,6 +54,19 @@ const DappPage: NextPage<Props> = ({ user }) => {
       );
       const json = await response.json();
       setData(json.values);
+    };
+    const isWl = () => {
+      data.forEach((item) => {
+        // ts ignore
+
+        item.forEach((i: string | undefined) => {
+          if (i === address) {
+            setIsWhitelisted(true);
+          } else {
+            setIsWhitelisted(false);
+          }
+        });
+      });
     };
     fetchData();
     isWl();
@@ -93,7 +92,7 @@ const DappPage: NextPage<Props> = ({ user }) => {
     };
 
     checkAddy();
-  }, [address]);
+  }, [address, addy, data]);
 
   return (
     <>
