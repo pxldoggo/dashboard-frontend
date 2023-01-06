@@ -17,6 +17,7 @@ import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 // @ts-ignore
 import AVVY from "@avvy/client";
 import { ethers } from "ethers";
+import CountDownTimer from "../../components/misc/Countdown";
 
 type Props = {
   user: UserType;
@@ -385,6 +386,7 @@ const DappPage: NextPage<Props> = ({ user }) => {
           <div className="">
             <div className="rounded shadow bg-white dark:bg-gray-700 p-4">
               [Redacted]
+              {/* <CountDownTimer days={4} hours={12} minutes={0} seconds={0} /> */}
             </div>
           </div>
         </div>

@@ -255,12 +255,12 @@ const Navbar = () => {
                               )}
                               {chain.name}
                             </button> */}
-                            <a
+                            <Link
                               className="inline-flex items-center px-4 py-2 text-base font-medium dark:text-white text-white bg-soft-blue-100 border border-transparent rounded-md hover:bg-soft-blue-200"
                               href="/dapp"
                             >
                               Go to dApp
-                            </a>
+                            </Link>
                             <button
                               onClick={openAccountModal}
                               className="inline-flex items-center px-4 py-2 text-base font-medium dark:text-soft-blue-100 hover:dark:text-white hover:text-whiteF text-soft-blue-100 bg-transparent border-2 border-soft-blue-100 rounded-md hover:bg-soft-blue-200"
