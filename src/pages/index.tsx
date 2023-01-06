@@ -82,7 +82,7 @@ const Home: NextPage<Props> = ({ user }) => {
                 />
               </a>
               <a
-                href="https://discord.gg/ZRXsmBKs"
+                href="https://discord.gg/rPA98J4xpQ"
                 target="_blank"
                 rel="noreferrer"
               >
