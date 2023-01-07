@@ -47,24 +47,24 @@ const DappPage: NextPage<Props> = ({ user }) => {
     setIsModalOpen(false);
   };
 
-  const isWl = () => {
-    data.map((item) => {
-      item.forEach((i: string | undefined) => {
-        console.log("pesquisando");
-        if (i === address) {
-          console.log("achou", address);
-          setIsWhitelisted(true);
-          setFound(true);
-          setAddressFound(address);
-        } else {
-          console.log("não achou", address);
-          setIsWhitelisted(false);
-        }
-      });
-    });
-  };
-
   useEffect(() => {
+    const isWl = () => {
+      data.map((item) => {
+        item.forEach((i: string | undefined) => {
+          console.log("pesquisando");
+          if (i === address) {
+            console.log("achou", address);
+            setIsWhitelisted(true);
+            setFound(true);
+            setAddressFound(address);
+          } else {
+            console.log("não achou", address);
+            setIsWhitelisted(false);
+          }
+        });
+      });
+    };
+    
     const fetchData = async () => {
       const response = await fetch(
         `https://sheets.googleapis.com/v4/spreadsheets/1AJA-bwVyoLjrGIhITpSm_tVXCcnutPNn0D96fy8Wa1k/values/Address!A2:A200?key=AIzaSyCem6X_ZHf9FaGIy-8cmTe9FueguaH7YcQ`
