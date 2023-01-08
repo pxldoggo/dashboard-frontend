@@ -48,32 +48,39 @@ const DappPage: NextPage<Props> = ({ user }) => {
   };
 
   useEffect(() => {
-    const isWl = () => {
-      data.map((item) => {
-        item.forEach((i: string | undefined) => {
-          console.log("pesquisando");
-          if (i === address) {
-            console.log("achou", address);
-            setIsWhitelisted(true);
-            setFound(true);
-            setAddressFound(address);
-          } else {
-            console.log("não achou", address);
-            setIsWhitelisted(false);
-          }
-        });
-      });
-    };
-    
-    const fetchData = async () => {
+    const FetchData = async () => {
       const response = await fetch(
         `https://sheets.googleapis.com/v4/spreadsheets/1AJA-bwVyoLjrGIhITpSm_tVXCcnutPNn0D96fy8Wa1k/values/Address!A2:A200?key=AIzaSyCem6X_ZHf9FaGIy-8cmTe9FueguaH7YcQ`
       );
       const json = await response.json();
       setData(json.values);
     };
-    fetchData();
-    isWl();
+    const IsWl = () => {
+      console.log("entrou aqui");
+      if (data) {
+        console.log("teve data");
+        data.map((item) => {
+          console.log("pesquisando itens");
+          item.forEach((i: string | undefined) => {
+            console.log("pesquisando");
+            if (i === address) {
+              console.log("achou", address);
+              setIsWhitelisted(true);
+              setFound(true);
+              setAddressFound(address);
+            } else {
+              console.log("não achou", address);
+              setIsWhitelisted(false);
+            }
+          });
+        });
+      } else if (!data) {
+        console.log("não teve data");
+      }
+    };
+
+    FetchData();
+    IsWl();
     const checkAddy = async () => {
       const PROVIDER_URL = "https://api.avax.network/ext/bc/C/rpc";
       const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL);
@@ -95,7 +102,7 @@ const DappPage: NextPage<Props> = ({ user }) => {
     };
 
     checkAddy();
-  }, [address]);
+  }, [data, address]);
   return (
     <>
       <Head>
