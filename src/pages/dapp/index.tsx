@@ -56,26 +56,20 @@ const DappPage: NextPage<Props> = ({ user }) => {
       setData(json.values);
     };
     const IsWl = () => {
-      console.log("entrou aqui");
       if (data) {
-        console.log("teve data");
         data.map((item) => {
-          console.log("pesquisando itens");
           item.forEach((i: string | undefined) => {
-            console.log("pesquisando");
             if (i === address) {
-              console.log("achou", address);
               setIsWhitelisted(true);
               setFound(true);
               setAddressFound(address);
             } else {
-              console.log("não achou", address);
               setIsWhitelisted(false);
             }
           });
         });
       } else if (!data) {
-        console.log("não teve data");
+        return;
       }
     };
 
@@ -89,15 +83,12 @@ const DappPage: NextPage<Props> = ({ user }) => {
       if (hash) {
         const name = await hash.lookup();
         setAddy(name?.name);
-        console.log("You have a Avvy Domain name: ", addy);
       } else if (address) {
         const resumedAddy =
           address?.substring(0, 6) +
           "..." +
           address?.substring(address?.length - 4, address?.length);
-        // @ts-ignore
         setAddy(resumedAddy);
-        console.log("You don't have a Avvy Domain name: ", addy);
       }
     };
 

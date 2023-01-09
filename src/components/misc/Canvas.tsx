@@ -3,10 +3,8 @@ export const Canvas: React.FC<{}> = (info) => {
   let canvasRef = useRef<HTMLCanvasElement | null>(null);
   let canvasCtxRef = useRef<CanvasRenderingContext2D | null>(null);
 
-
   // @ts-ignore
   const user = info.info.twitter.user;
-  console.log(user, "user");
   useEffect(() => {
     if (canvasRef.current) {
       canvasCtxRef.current = canvasRef.current.getContext("2d");
@@ -14,45 +12,52 @@ export const Canvas: React.FC<{}> = (info) => {
       ctx!.canvas.width = 750;
       ctx!.canvas.height = 250;
 
-      const userName = () => {
-        ctx!.save();
-        ctx!.fillStyle = "black";
-        ctx!.rotate((-14 * Math.PI) / 180);
+      const customFont = new FontFace(
+        "Pixellari",
+        "url(./fonts/Pixellari.ttf)"
+      );
 
-        if (user.username.length <= 10) {
-          ctx!.font = "16px Pixellari";
-          ctx!.fillText("@" + user.username, 434, 301);
-        } else if (user.username.length > 10 && user.username.length <= 12) {
-          ctx!.font = "16px Pixellari";
-          ctx!.fillText("@" + user.username, 432, 301);
-        } else if (user.username.length > 12 && user.username.length <= 13) {
-          ctx!.font = "15px Pixellari";
-          ctx!.fillText("@" + user.username, 425, 301);
-        } else if (user.username.length > 13 && user.username.length <= 14) {
-          ctx!.font = "15px Pixellari";
-          ctx!.fillText("@" + user.username, 425, 301);
-        } else {
-          ctx!.font = "13px Pixellari";
-          ctx!.fillText("@" + user.username, 426, 301);
-        }
-        ctx!.restore();
-      };
+      customFont.load().then(function (font) {
+        const userName = () => {
+          ctx!.save();
+          ctx!.fillStyle = "black";
+          ctx!.rotate((-14 * Math.PI) / 180);
 
-      const background = () => {
-        // set an image as the background of the canvas
-        ctx!.save();
-        let img = new Image();
-        ctx!.rotate((14 * Math.PI) / 180);
-        img.src = "/doggobanner.png";
-        img.onload = function () {
-          ctx!.globalCompositeOperation = "destination-over";
-          ctx!.drawImage(img, 0, 0, 750, 250);
+          if (user.username.length <= 10) {
+            ctx!.font = "16px Pixellari";
+            ctx!.fillText("@" + user.username, 434, 301);
+          } else if (user.username.length > 10 && user.username.length <= 12) {
+            ctx!.font = "16px Pixellari";
+            ctx!.fillText("@" + user.username, 432, 301);
+          } else if (user.username.length > 12 && user.username.length <= 13) {
+            ctx!.font = "15px Pixellari";
+            ctx!.fillText("@" + user.username, 425, 301);
+          } else if (user.username.length > 13 && user.username.length <= 14) {
+            ctx!.font = "15px Pixellari";
+            ctx!.fillText("@" + user.username, 425, 301);
+          } else {
+            ctx!.font = "13px Pixellari";
+            ctx!.fillText("@" + user.username, 426, 301);
+          }
+          ctx!.restore();
         };
-        ctx!.restore();
-      };
 
-      userName();
-      background();
+        const background = () => {
+          // set an image as the background of the canvas
+          ctx!.save();
+          let img = new Image();
+          ctx!.rotate((14 * Math.PI) / 180);
+          img.src = "/doggobanner.png";
+          img.onload = function () {
+            ctx!.globalCompositeOperation = "destination-over";
+            ctx!.drawImage(img, 0, 0, 750, 250);
+          };
+          ctx!.restore();
+        };
+
+        document.fonts.load('10pt "Pixellari"').then(userName());
+        background();
+      });
     }
   }, []);
 
