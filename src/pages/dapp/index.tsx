@@ -1,6 +1,5 @@
 import { GetServerSidePropsContext, NextPage } from "next";
 import { DiscordUser, UserType } from "../../utils/types";
-import { fetchUser } from "../../utils/api";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 import { DISCORD_CDN_URL } from "../../utils/constants";
@@ -18,6 +17,7 @@ import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 import AVVY from "@avvy/client";
 import { ethers } from "ethers";
 import CountDownTimer from "../../components/misc/Countdown";
+import { fetchUser, useWhitelistedWallets } from "../../utils/api";
 
 type Props = {
   user: UserType;
@@ -25,12 +25,8 @@ type Props = {
 
 const DappPage: NextPage<Props> = ({ user }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useState<any[]>([]);
-  const [isWhitelisted, setIsWhitelisted] = useState(false);
-  const [addressFound, setAddressFound] = useState<string>();
-  const [found, setFound] = useState(false);
-  const { address, isConnected, connector } = useAccount();
-  const [addy, setAddy] = useState<string>();
+  // const [addy, setAddy] = useState<string>();
+  const { wallets, isWalletsError, isWalletsLoading } = useWhitelistedWallets();
 
   const handleLoginDiscord = () => {
     window.location.href = `${process.env.API_URL}/auth/discord`;
@@ -46,54 +42,31 @@ const DappPage: NextPage<Props> = ({ user }) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  const IsWl = () => {
+    if (!isWalletsLoading) {
+      const wl = wallets?.values.some((wallet) => wallet == user.wallet);
+      return wl;
+    }
+  };
 
-  useEffect(() => {
-    const FetchData = async () => {
-      const response = await fetch(
-        `https://sheets.googleapis.com/v4/spreadsheets/1AJA-bwVyoLjrGIhITpSm_tVXCcnutPNn0D96fy8Wa1k/values/Address!A2:A200?key=AIzaSyCem6X_ZHf9FaGIy-8cmTe9FueguaH7YcQ`
-      );
-      const json = await response.json();
-      setData(json.values);
-    };
-    const IsWl = () => {
-      if (data) {
-        data.map((item) => {
-          item.forEach((i: string | undefined) => {
-            if (i === user.wallet) {
-              setIsWhitelisted(true);
-              setFound(true);
-              setAddressFound(user.wallet);
-            } else {
-              setIsWhitelisted(false);
-            }
-          });
-        });
-      } else if (!data) {
-        return;
-      }
-    };
+  // const checkAddy = async () => {
+  //   const PROVIDER_URL = "https://api.avax.network/ext/bc/C/rpc";
+  //   const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL);
+  //   const avvy = new AVVY(provider);
+  //   const hash = await avvy.reverse(AVVY.RECORDS.EVM, user.wallet);
+  //   if (hash) {
+  //     const name = await hash.lookup();
+  //     setAddy(name?.name);
+  //   } else if (user.wallet) {
+  //     const resumedAddy =
+  //       user.wallet.substring(0, 6) +
+  //       "..." +
+  //       user.wallet.substring(user.wallet?.length - 4, user.wallet?.length);
+  //     setAddy(resumedAddy);
+  //   }
+  // };
 
-    FetchData();
-    IsWl();
-    const checkAddy = async () => {
-      const PROVIDER_URL = "https://api.avax.network/ext/bc/C/rpc";
-      const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL);
-      const avvy = new AVVY(provider);
-      const hash = await avvy.reverse(AVVY.RECORDS.EVM, user.wallet);
-      if (hash) {
-        const name = await hash.lookup();
-        setAddy(name?.name);
-      } else if (user.wallet) {
-        const resumedAddy =
-          user.wallet.substring(0, 6) +
-          "..." +
-          user.wallet.substring(user.wallet?.length - 4, user.wallet?.length);
-        setAddy(resumedAddy);
-      }
-    };
-
-    checkAddy();
-  }, [data, user]);
+  // checkAddy();
   return (
     <>
       <Head>
@@ -130,7 +103,7 @@ const DappPage: NextPage<Props> = ({ user }) => {
       </Head>
       <Header />
       <div className="relative mx-auto mb-4 lg:pt-8 sm:pt-2 max-w-7xl px-4 sm:px-6">
-        {addressFound && user.twitter ? (
+        {!isWalletsLoading && IsWl() && user.twitter ? (
           <div>
             <div
               id="alert"
@@ -256,7 +229,8 @@ const DappPage: NextPage<Props> = ({ user }) => {
                                   className="text-base font-bold dark:text-white text-gray-800 hover:text-soft-blue-400"
                                   type="button"
                                 >
-                                  {account.displayName && addy}
+                                  {/* {account.displayName && addy} */}
+                                  {account.displayName}
                                 </button>
                                 {/* <button
                               onClick={openChainModal}
@@ -290,7 +264,7 @@ const DappPage: NextPage<Props> = ({ user }) => {
                                 <p className="text-sm font-medium dark:text-white text-gray-800 mb-1">
                                   Packlisted?
                                 </p>
-                                {addressFound ? (
+                                {IsWl() ? (
                                   <p className="text-base font-bold dark:text-white text-gray-800 hover:text-soft-blue-400">
                                     ✅ Yes
                                   </p>

@@ -6,13 +6,30 @@ import {
   DiscordUser,
   Guild,
   PostVerificationGuildEmbed,
+  SpreadsheetWalletsType,
 } from "./types";
+import useSWR from "swr";
 
 const environment = process.env.NODE_ENV;
 const isDevelopment = environment === "development";
 const API_URL = isDevelopment
   ? `http://localhost:3001`
   : "https://api.pixeldoggo.com";
+
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+
+export const useWhitelistedWallets = () => {
+  const { data, error } = useSWR<SpreadsheetWalletsType>(
+    `https://sheets.googleapis.com/v4/spreadsheets/1AJA-bwVyoLjrGIhITpSm_tVXCcnutPNn0D96fy8Wa1k/values/Address!A2:A300?key=${process
+      .env.SPREADSHEET_KEY!}`,
+    fetcher
+  );
+  return {
+    wallets: data,
+    isWalletsLoading: !error && !data,
+    isWalletsError: error,
+  };
+};
 
 export const fetchMutualGuilds = async (context: GetServerSidePropsContext) => {
   const headers = validateCookies(context);

@@ -9,6 +9,12 @@ export interface Verification {
   chain: number; // numero da chain
   contract: string; // contrato da coleção;
 }
+
+export type SpreadsheetWalletsType = {
+  range: string;
+  majorDimension: string;
+  values: string[];
+};
 export interface Guild {
   guildId: string;
   verification: Verification;
