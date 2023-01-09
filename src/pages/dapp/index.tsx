@@ -59,10 +59,10 @@ const DappPage: NextPage<Props> = ({ user }) => {
       if (data) {
         data.map((item) => {
           item.forEach((i: string | undefined) => {
-            if (i === address) {
+            if (i === user.wallet) {
               setIsWhitelisted(true);
               setFound(true);
-              setAddressFound(address);
+              setAddressFound(user.wallet);
             } else {
               setIsWhitelisted(false);
             }
@@ -79,21 +79,21 @@ const DappPage: NextPage<Props> = ({ user }) => {
       const PROVIDER_URL = "https://api.avax.network/ext/bc/C/rpc";
       const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL);
       const avvy = new AVVY(provider);
-      const hash = await avvy.reverse(AVVY.RECORDS.EVM, address);
+      const hash = await avvy.reverse(AVVY.RECORDS.EVM, user.wallet);
       if (hash) {
         const name = await hash.lookup();
         setAddy(name?.name);
-      } else if (address) {
+      } else if (user.wallet) {
         const resumedAddy =
-          address?.substring(0, 6) +
+          user.wallet.substring(0, 6) +
           "..." +
-          address?.substring(address?.length - 4, address?.length);
+          user.wallet.substring(user.wallet?.length - 4, user.wallet?.length);
         setAddy(resumedAddy);
       }
     };
 
     checkAddy();
-  }, [data, address]);
+  }, [data, user]);
   return (
     <>
       <Head>
@@ -243,7 +243,7 @@ const DappPage: NextPage<Props> = ({ user }) => {
                                 <Jazzicon
                                   diameter={64}
                                   // @ts-ignore
-                                  seed={jsNumberForAddress(address)}
+                                  seed={jsNumberForAddress(user.wallet)}
                                 />
                               )}
 
