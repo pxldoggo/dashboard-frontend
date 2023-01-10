@@ -22,6 +22,7 @@
     "eslint-config-next": "13.0.6",
     "ethers": "^5.7.2",
     "googleapis": "^110.0.0",
+    "js-cookie": "^3.0.1",
     "lodash.merge": "^4.6.2",
     "next": "13.0.6",
     "next-themes": "^0.2.1",
@@ -35,6 +36,7 @@
     "wagmi": "^0.9.4"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.2",
     "@types/lodash.merge": "^4.6.7",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.20",

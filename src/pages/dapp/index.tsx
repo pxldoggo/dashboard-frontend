@@ -79,7 +79,7 @@ const DappPage: NextPage<Props> = ({ user }) => {
       const PROVIDER_URL = "https://api.avax.network/ext/bc/C/rpc";
       const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL);
       const avvy = new AVVY(provider);
-      const hash = await avvy.reverse(AVVY.RECORDS.EVM, user.wallet);
+      const hash = await avvy.reverse(AVVY.RECORDS.EVM, "user.wallet");
       if (hash) {
         const name = await hash.lookup();
         setAddy(name?.name);
@@ -256,7 +256,7 @@ const DappPage: NextPage<Props> = ({ user }) => {
                                   className="text-base font-bold dark:text-white text-gray-800 hover:text-soft-blue-400"
                                   type="button"
                                 >
-                                  {account.displayName && addy}
+                                  {account.displayName || addy}
                                 </button>
                                 {/* <button
                               onClick={openChainModal}

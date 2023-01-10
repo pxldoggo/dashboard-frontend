@@ -198,7 +198,7 @@ export const Header: FC<Props> = ({ user, guild }) => {
                                 className="inline-flex items-center px-4 py-2 text-base font-medium dark:text-white text-white bg-soft-blue-100 border border-transparent rounded-md hover:bg-soft-blue-200"
                                 type="button"
                               >
-                                {account.displayName && addy}
+                                {account.displayName || addy}
                                 {/* {addy?.substring(0, 6) +
                                 "..." +
                                 addy?.substring(addy?.length - 4, addy?.length)} */}
@@ -365,7 +365,7 @@ export const Header: FC<Props> = ({ user, guild }) => {
                                 className="block px-3 py-2 text-base font-medium dark:text-white text-gray-800 rounded-md hover:bg-soft-blue-200"
                                 type="button"
                               >
-                                Connected as {account.displayName && addy}
+                                Connected as {account.displayName || addy}
                                 {/* {addy?.substring(0, 6) +
                                 "..." +
                                 addy?.substring(addy?.length - 4, addy?.length)} */}

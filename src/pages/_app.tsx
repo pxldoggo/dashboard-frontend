@@ -1,6 +1,7 @@
 import "../utils/styles/globals.css";
 
 import { ThemeProvider } from "next-themes";
+import Cookies from 'js-cookie';
 
 import { AppPropsWithLayout, DiscordGuild } from "../utils/types";
 import { useContext, useEffect, useState } from "react";
@@ -16,6 +17,7 @@ import {
   Theme,
 } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
+import { disconnect } from "@wagmi/core";
 import { avalanche, avalancheFuji } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { createAuthenticationAdapter } from "@rainbow-me/rainbowkit";
@@ -86,8 +88,14 @@ const authenticationAdapter = createAuthenticationAdapter({
   },
 
   signOut: async () => {
+    localStorage.clear();
     localStorage.setItem("authenticate", "false");
+    await disconnect();
     await fetch(`${process.env.API_URL}/auth/logout`);
+    Cookies.remove('connect.sid');
+    Router.push("/").then(() => {
+      window.location.reload();
+    });
   },
 });
 

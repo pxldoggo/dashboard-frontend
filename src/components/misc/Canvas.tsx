@@ -54,7 +54,7 @@ export const Canvas: React.FC<{}> = (info) => {
           };
           ctx!.restore();
         };
-
+        // @ts-ignore
         document.fonts.load('10pt "Pixellari"').then(userName());
         background();
       });
