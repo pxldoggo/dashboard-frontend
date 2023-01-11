@@ -1,23 +1,19 @@
 import { GetServerSidePropsContext, NextPage } from "next";
-import { DiscordUser, UserType } from "../../utils/types";
+import { UserType } from "../../utils/types";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
-import { DISCORD_CDN_URL } from "../../utils/constants";
 import { useEffect, useState } from "react";
-import Navbar from "../../components/misc/Navbar";
-import { useAccount, useNetwork, useConnect } from "wagmi";
-import Router from "next/router";
 import Modal from "../../components/misc/Modal";
 import { Canvas } from "../../components/misc/Canvas";
 import { Header } from "../../components/dapp/Header";
 import Head from "next/head";
+//@ts-ignore
+import AVVY from "@avvy/client";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 
-// @ts-ignore
-import AVVY from "@avvy/client";
-import { ethers } from "ethers";
-import CountDownTimer from "../../components/misc/Countdown";
 import { fetchUser, useWhitelistedWallets } from "../../utils/api";
+import { ethers } from "ethers";
+import { getDisplayName } from "next/dist/shared/lib/utils";
 
 type Props = {
   user: UserType;
@@ -25,8 +21,8 @@ type Props = {
 
 const DappPage: NextPage<Props> = ({ user }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [addy, setAddy] = useState<string>();
-  const { wallets, isWalletsError, isWalletsLoading } = useWhitelistedWallets();
+  const { wallets, isWalletsLoading } = useWhitelistedWallets();
+  const [domainAddress, setDomainAddress] = useState(null);
 
   const handleLoginDiscord = () => {
     window.location.href = `${process.env.API_URL}/auth/discord`;
@@ -48,46 +44,23 @@ const DappPage: NextPage<Props> = ({ user }) => {
       return wl;
     }
   };
-
-  // const checkAddy = async () => {
-  //   const PROVIDER_URL = "https://api.avax.network/ext/bc/C/rpc";
-  //   const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL);
-  //   const avvy = new AVVY(provider);
-  //   const hash = await avvy.reverse(AVVY.RECORDS.EVM, user.wallet);
-  //   if (hash) {
-  //     const name = await hash.lookup();
-  //     setAddy(name?.name);
-  //   } else if (user.wallet) {
-  //     const resumedAddy =
-  //       user.wallet.substring(0, 6) +
-  //       "..." +
-  //       user.wallet.substring(user.wallet?.length - 4, user.wallet?.length);
-  //     setAddy(resumedAddy);
-  //   }
-  // };
-
-    FetchData();
-    IsWl();
-    const checkAddy = async () => {
+  useEffect(() => {
+    const getDomainAddress = async () => {
       const PROVIDER_URL = "https://api.avax.network/ext/bc/C/rpc";
       const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL);
       const avvy = new AVVY(provider);
-      const hash = await avvy.reverse(AVVY.RECORDS.EVM, "user.wallet");
+      const hash = await avvy.reverse(AVVY.RECORDS.EVM, user.wallet);
       if (hash) {
         const name = await hash.lookup();
-        setAddy(name?.name);
-      } else if (user.wallet) {
-        const resumedAddy =
-          user.wallet.substring(0, 6) +
-          "..." +
-          user.wallet.substring(user.wallet?.length - 4, user.wallet?.length);
-        setAddy(resumedAddy);
+        setDomainAddress(name?.name);
       }
     };
 
-    checkAddy();
-  }, [data, user]);
-  // checkAddy();
+    if (!domainAddress) {
+      getDomainAddress();
+    }
+  }, [domainAddress, user.wallet]);
+
   return (
     <>
       <Head>
@@ -229,14 +202,14 @@ const DappPage: NextPage<Props> = ({ user }) => {
                           <div className="flex flex-col justify-center items-center gap-4">
                             <div className="flex flex-col items-center gap-4 py-6 justify-center">
                               {account.ensAvatar ? (
-                                <img
+                                <Image
                                   src={account.ensAvatar}
                                   className="rounded-full w-16 h-16"
+                                  alt="Avatar"
                                 />
                               ) : (
                                 <Jazzicon
                                   diameter={64}
-                                  // @ts-ignore
                                   seed={jsNumberForAddress(user.wallet)}
                                 />
                               )}
@@ -250,40 +223,10 @@ const DappPage: NextPage<Props> = ({ user }) => {
                                   className="text-base font-bold dark:text-white text-gray-800 hover:text-soft-blue-400"
                                   type="button"
                                 >
-<<<<<<< HEAD
-                                  {account.displayName || addy}
-=======
-                                  {/* {account.displayName && addy} */}
-                                  {account.displayName}
->>>>>>> 390c17f4bf801d95692481daef6e1fb9fb0fdd3a
+                                  {domainAddress != null
+                                    ? domainAddress
+                                    : account.displayName}
                                 </button>
-                                {/* <button
-                              onClick={openChainModal}
-                              style={{ display: "flex", alignItems: "center" }}
-                              type="button"
-                            >
-                              {chain.hasIcon && (
-                                <div
-                                  style={{
-                                    background: chain.iconBackground,
-                                    width: 12,
-                                    height: 12,
-                                    borderRadius: 999,
-                                    overflow: "hidden",
-                                    marginRight: 4,
-                                  }}
-                                >
-                                  {chain.iconUrl && (
-                                    <img
-                                      alt={chain.name ?? "Chain icon"}
-                                      src={chain.iconUrl}
-                                      style={{ width: 12, height: 12 }}
-                                    />
-                                  )}
-                                </div>
-                              )}
-                              {chain.name}
-                            </button> */}
                               </div>
                               <div className="text-center">
                                 <p className="text-sm font-medium dark:text-white text-gray-800 mb-1">
@@ -384,7 +327,6 @@ const DappPage: NextPage<Props> = ({ user }) => {
           <div className="">
             <div className="rounded shadow bg-white dark:bg-gray-700 p-4">
               [Redacted]
-              {/* <CountDownTimer days={4} hours={12} minutes={0} seconds={0} /> */}
             </div>
           </div>
         </div>
