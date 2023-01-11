@@ -36,20 +36,13 @@ export const fetchMutualGuilds = async (context: GetServerSidePropsContext) => {
   if (!headers) return { redirect: { destination: "/" } };
 
   try {
-    const { data: guilds } = await axios.get<DiscordGuild[]>(
-      `${API_URL}/guilds`,
-      {
-        headers,
-      }
-    );
-    const { data: adminGuilds } = await axios.get<DiscordGuild[]>(
-      `${API_URL}/guilds/admin`,
-      {
-        headers,
-      }
-    );
-    console.log(guilds);
-    return { props: { guilds, adminGuilds } };
+    const { data: allGuilds } = await axios.get<{
+      guilds: DiscordGuild[];
+      guildsAdmin: DiscordGuild[];
+    }>(`${API_URL}/guilds`, {
+      headers,
+    });
+    return { props: { allGuilds } };
   } catch (error) {
     console.log(error);
     return { redirect: { destination: "/" } };

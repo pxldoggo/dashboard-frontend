@@ -225,14 +225,17 @@ const DappPage: NextPage<Props> = ({ user }) => {
                                 >
                                   {domainAddress != null
                                     ? domainAddress
-                                    : account.displayName}
+                                    : `${user.wallet.slice(
+                                        0,
+                                        4
+                                      )}...${user.wallet.slice(38, 42)}`}
                                 </button>
                               </div>
                               <div className="text-center">
                                 <p className="text-sm font-medium dark:text-white text-gray-800 mb-1">
                                   Packlisted?
                                 </p>
-                                {IsWl() ? (
+                                {!isWalletsLoading && IsWl() ? (
                                   <p className="text-base font-bold dark:text-white text-gray-800 hover:text-soft-blue-400">
                                     ✅ Yes
                                   </p>

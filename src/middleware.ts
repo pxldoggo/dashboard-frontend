@@ -24,7 +24,6 @@ const params = (url: string) => {
 };
 
 export async function middleware(req: NextRequest, ev: NextFetchEvent) {
-  console.log(req.url);
   // const headers = validateMiddlewareCookies(req);
   // console.log(headers);
   // if (!headers) return NextResponse.rewrite(new URL("/", req.url));
