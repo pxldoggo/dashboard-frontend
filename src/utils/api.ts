@@ -131,6 +131,18 @@ export const getVerificationSystem = async (id: string) => {
   });
   return data;
 };
+export const disconnectDiscord = async () => {
+  const { data } = await axios.get(`${API_URL}/auth/discord/logout`, {
+    withCredentials: true,
+  });
+  return data;
+};
+export const disconnectTwitter = async () => {
+  const { data } = await axios.get(`${API_URL}/auth/twitter/logout`, {
+    withCredentials: true,
+  });
+  return data;
+};
 export const deleteVerificationSystem = async (id: string) => {
   const { data } = await axios.delete(`${API_URL}/guilds/${id}/verification`, {
     withCredentials: true,

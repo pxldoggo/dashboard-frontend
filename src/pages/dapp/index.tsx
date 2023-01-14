@@ -11,9 +11,16 @@ import Head from "next/head";
 import AVVY from "@avvy/client";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 
-import { fetchUser, useWhitelistedWallets } from "../../utils/api";
+import {
+  disconnectDiscord,
+  disconnectTwitter,
+  fetchUser,
+  useWhitelistedWallets,
+} from "../../utils/api";
 import { ethers } from "ethers";
 import { getDisplayName } from "next/dist/shared/lib/utils";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 type Props = {
   user: UserType;
@@ -23,12 +30,44 @@ const DappPage: NextPage<Props> = ({ user }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { wallets, isWalletsLoading } = useWhitelistedWallets();
   const [domainAddress, setDomainAddress] = useState(null);
+  const router = useRouter();
+  const { error } = router.query;
+  if (error) {
+    if (error == "TwitterError") {
+      toast(
+        "Please disconnect your Twitter account from the other wallet so that you can connect it to this account.",
+        { toastId: "twitterError", type: "error" }
+      );
+    }
+    if (error == "DiscordError") {
+      toast(
+        "Please disconnect your Discord account from the other wallet so that you can connect it to this account.",
+        { toastId: "discordError", type: "error" }
+      );
+    }
+  }
 
   const handleLoginDiscord = () => {
     window.location.href = `${process.env.API_URL}/auth/discord`;
   };
   const handleLoginTwitter = () => {
     window.location.href = `${process.env.API_URL}/auth/twitter`;
+  };
+  const handleDisconnectDiscord = async () => {
+    await disconnectDiscord();
+    window.location.reload();
+    toast("Discord disconnect with success!", {
+      toastId: "disconnectDiscord",
+      type: "success",
+    });
+  };
+  const handleDisconnectTwitter = async () => {
+    await disconnectTwitter();
+    window.location.reload();
+    toast("Twitter disconnect with success!", {
+      toastId: "disconnectTwitter",
+      type: "success",
+    });
   };
 
   const openModal = () => {
@@ -291,6 +330,13 @@ const DappPage: NextPage<Props> = ({ user }) => {
                           {user.discord.user?.username}#
                           {user.discord.user?.discriminator}
                         </p>
+                        <button
+                          onClick={handleDisconnectDiscord}
+                          type="button"
+                          className="inline-flex items-center px-4 py-2 text-base font-medium dark:text-white text-white bg-red-600 border border-transparent rounded-md hover:bg-soft-blue-200 self-start"
+                        >
+                          Disconnect
+                        </button>
                       </div>
                     </>
                   )}
@@ -320,6 +366,13 @@ const DappPage: NextPage<Props> = ({ user }) => {
                         <p className="text-base dark:text-white text-gray-800 hover:text-soft-blue-400">
                           @{user.twitter.user?.username}
                         </p>
+                        <button
+                          onClick={handleDisconnectTwitter}
+                          type="button"
+                          className="inline-flex items-center px-4 py-2 text-base font-medium dark:text-white text-white bg-red-600 border border-transparent rounded-md hover:bg-soft-blue-200 self-start"
+                        >
+                          Disconnect
+                        </button>
                       </div>
                     </>
                   )}
