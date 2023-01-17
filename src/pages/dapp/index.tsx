@@ -35,13 +35,25 @@ const DappPage: NextPage<Props> = ({ user }) => {
   if (error) {
     if (error == "TwitterError") {
       toast(
-        "Please disconnect your Twitter account from the other wallet so that you can connect it to this account.",
+        `Please disconnect your Twitter account from the other wallet (${user.wallet.slice(
+          0,
+          4
+        )}...${user.wallet.slice(
+          38,
+          42
+        )}) so that you can connect it to this account.`,
         { toastId: "twitterError", type: "error" }
       );
     }
     if (error == "DiscordError") {
       toast(
-        "Please disconnect your Discord account from the other wallet so that you can connect it to this account.",
+        `Please disconnect your Discord account from the other wallet (${user.wallet.slice(
+          0,
+          4
+        )}...${user.wallet.slice(
+          38,
+          42
+        )}) so that you can connect it to this account.`,
         { toastId: "discordError", type: "error" }
       );
     }
